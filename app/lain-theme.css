@@ -369,9 +369,18 @@ main { position: relative; isolation: isolate; }
 @keyframes wired-blink { 0%, 45% { opacity: 1; } 46%, 100% { opacity: 0; } }
 @keyframes signal-pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
 
+.hero::before {
+  background-image: url("/wired-infrastructure.svg");
+  background-size: contain;
+  background-position: right center;
+  background-repeat: no-repeat;
+  opacity: .50;
+}
+.hero h1 .signalCaret { color: var(--signal); text-shadow: none; }
+
 @media (max-width: 960px) {
   .hero { min-height: auto; grid-template-columns: 1fr; }
-  .hero::before { width: 75%; height: 360px; }
+  .hero::before { width: 75%; height: 360px; opacity: .27; }
   .terminalCard { transform: none; max-width: 650px; }
 }
 @media (max-width: 680px) {
