@@ -190,6 +190,25 @@
 .wiredAction:hover { transform: translate(-2px,-2px); }
 .wiredActionPrimary:hover { background: #75283a; }
 .wiredActionSecondary:hover { background: #fff; }
+.wiredSocialLinks {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: -3px 0 24px;
+}
+.wiredSocialLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6c353f;
+  font: 700 10px/1.5 "Courier New",monospace;
+  letter-spacing: .13em;
+  border-bottom: 1px solid rgba(135,49,62,.35);
+  padding-bottom: 5px;
+}
+.wiredSocialLinks a:hover { color: #a33349; border-color: currentColor; }
+.wiredSocialLinks svg { width: 15px; height: 15px; fill: currentColor; }
+
 .wiredMetaLine {
   display: flex;
   flex-wrap: wrap;
