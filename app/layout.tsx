@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "./lain-theme.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jericho Blando | IT Student & Full-Stack Developer",
+  title: "Jericho Blando | Developer in the Wired",
   description:
     "Portfolio of Jericho Blando — BS Information Technology student specializing in Django, backend architecture, PostgreSQL, and practical web systems.",
   metadataBase: new URL("https://example.vercel.app"),
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     "linkedin:profile": "https://www.linkedin.com/in/jericho-blando-5530172b0/",
   },
   openGraph: {
-    title: "Jericho Blando | IT Student & Full-Stack Developer",
+    title: "Jericho Blando | Developer in the Wired",
     description:
       "BSIT student building practical web systems with Python, Django, PostgreSQL, JavaScript, and modern stacks.",
     type: "website",
@@ -49,8 +50,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f3f2ed" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c1011" },
+    { media: "(prefers-color-scheme: light)", color: "#e9e9e0" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b1018" },
   ],
 };
 
@@ -68,8 +69,7 @@ export default function RootLayout({
               (function() {
                 try {
                   const stored = localStorage.getItem('jb-theme');
-                  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  const theme = stored ? stored : (systemDark ? 'dark' : 'light');
+                  const theme = stored === 'light' ? 'light' : 'dark';
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
               })();
