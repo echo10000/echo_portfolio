@@ -364,7 +364,7 @@ function InteractivePortrait() {
    ────────────────────────────────────────────── */
 
 export default function Home() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [activeSection, setActiveSection] = useState<string>("top");
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
@@ -497,8 +497,8 @@ export default function Home() {
       {/* ── HEADER NAVIGATION ── */}
       <header className="headerWrapper">
         <nav className="nav shell" aria-label="Primary navigation">
-          <a className="brand" href="#top" aria-label="00 / INDEX — Return to top">
-            <span className="brandIndex">00 /</span> INDEX
+          <a className="brand" href="#top" aria-label="Jericho Blando — Return to top">
+            <span className="brandIndex">jb://</span> the_wired
           </a>
 
           <div className="navActions">
@@ -595,15 +595,20 @@ export default function Home() {
       {/* ── HERO SECTION ── */}
       <section className="hero shell" id="top">
         <div>
+          <div className="signalHeader">
+            <span>PERSONAL NODE / TRANSMISSION 001</span>
+            <span className="signalBars" aria-hidden="true"><i /><i /><i /><i /></span>
+          </div>
           <div className="statusPill">
             <span className="statusDot" />
-            Available for Internships &amp; Junior Roles
+            Signal Active / Open to Junior &amp; Remote Roles
           </div>
 
           <h1>
-            I engineer reliable
-            <span>software systems.</span>
+            Building systems
+            <span>in the Wired<span className="signalCaret" aria-hidden="true">_</span></span>
           </h1>
+          <p className="heroIdentity">JERICHO BLANDO — DEVELOPER / BS INFORMATION TECHNOLOGY</p>
 
           <p className="heroLead">
             I&apos;m <strong>Jericho Blando</strong>, a BS Information Technology student specializing in backend architecture, constraint optimization algorithms, Django web services, and relational databases.
@@ -611,7 +616,7 @@ export default function Home() {
 
           <div className="heroActions">
             <a className="button primary" href="#projects">
-              View selected work <ArrowIcon />
+              Explore the archive <ArrowIcon />
             </a>
             <a
               className="button secondary"
@@ -640,15 +645,15 @@ export default function Home() {
               <span className="terminalDot" />
               <span className="terminalDot" />
             </div>
-            <div className="terminalTitle">jericho@blando-arch: ~</div>
+            <div className="terminalTitle">navi://jericho.node ~</div>
           </div>
 
           <div className="terminalTabs">
             {[
-              { id: "stack", label: "$ stack" },
-              { id: "capstone", label: "$ capstone" },
-              { id: "architecture", label: "$ architecture" },
-              { id: "status", label: "$ status" },
+              { id: "stack", label: "01.sys" },
+              { id: "capstone", label: "02.build" },
+              { id: "architecture", label: "03.logic" },
+              { id: "status", label: "04.link" },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -734,6 +739,10 @@ export default function Home() {
           </div>
         </aside>
       </section>
+
+      <div className="wireDivider shell" aria-hidden="true">
+        <span>END OF TRANSMISSION 000 // SCROLL TO CONTINUE</span>
+      </div>
 
       {/* ── 01 / ABOUT SECTION ── */}
       <section className="section shell" id="about">
@@ -1137,7 +1146,7 @@ export default function Home() {
       {/* ── FOOTER ── */}
       <footer className="footer shell">
         <div>
-          <span>© 2026 Jericho Blando · All rights reserved</span>
+          <span>© 2026 JERICHO BLANDO / END TRANSMISSION</span>
         </div>
         <div className="footerLinks">
           <a href="https://github.com/echo10000" target="_blank" rel="noreferrer">
