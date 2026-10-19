@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 980" fill="none" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <radialGradient id="sky" cx=".65" cy=".34" r=".8">
+  <stop stop-color="#f7f7eb"/><stop offset=".6" stop-color="#edece2"/><stop offset="1" stop-color="#c3c2b9"/>
+ </radialGradient>
+ <radialGradient id="stain"><stop stop-color="#92273a" stop-opacity=".7"/><stop offset=".47" stop-color="#a42a3d" stop-opacity=".33"/><stop offset="1" stop-color="#95273e" stop-opacity="0"/></radialGradient>
+ <linearGradient id="distance" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#60615f" stop-opacity=".0"/><stop offset="1" stop-color="#29292c" stop-opacity=".6"/></linearGradient>
+ <filter id="grain"><feTurbulence baseFrequency=".6" numOctaves="3" seed="19" stitchTiles="stitch" type="fractalNoise"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".14"/></feComponentTransfer></filter>
+ <filter id="blur"><feGaussianBlur stdDeviation="30"/></filter>
+</defs>
+<path fill="url(#sky)" d="M0 0h1600v980H0z"/>
+<!-- Empty suburban geometry disappearing into overexposed fog -->
+<path fill="#c9c7bb" opacity=".48" d="M0 698 170 636 280 676 438 596 580 656 692 638 800 668 800 980H0z"/>
+<path fill="#bbb9ae" opacity=".40" d="M900 666 1080 604 1170 628 1310 572 1490 653 1600 595v385H900z"/>
+<path fill="#2c2b2c" opacity=".21" d="M0 725 196 690l210 45 103-28 183 53 111-22 223 11 183-40 291 60v211H0z"/>
+<path fill="#fbf9e9" opacity=".5" d="m710 740 140 0 220 240H410z"/>
+<!-- The red shadow, not a bright neon glow -->
+<ellipse cx="1255" cy="747" rx="380" ry="330" fill="url(#stain)"/>
+<ellipse cx="1318" cy="816" rx="282" ry="175" fill="#772033" opacity=".22" filter="url(#blur)"/>
+<path fill="#9c2b3d" opacity=".23" d="M1110 980c-71-145-90-173-65-249 36-102 144-66 181-145 63-135 210-7 255 93 60 129 149 87 119 301z"/>
+<!-- Left-side towers -->
+<g stroke="#292b2d" stroke-linecap="square" stroke-linejoin="miter">
+ <g opacity=".95">
+  <path d="M226 55 199 1020" stroke-width="17"/><path d="M100 206 365 219M121 298 345 308M155 419 317 429" stroke-width="10"/>
+  <path d="M120 184v46M182 185v46M251 193v46M329 198v46M160 289v41M290 295v38M181 414v37M283 418v33" stroke-width="5"/>
+  <path d="M140 210 Q-160 265-390 158M350 215 Q788 280 1600 160M124 294 Q-240 307-505 236M345 309 Q903 393 1720 254M165 422 Q-55 460-355 450M315 430 Q889 514 1620 353" stroke-width="4"/>
+ </g>
+ <g opacity=".76">
+  <path d="M568 204 556 908" stroke-width="10"/><path d="M483 288 659 292M505 383 645 386" stroke-width="7"/>
+  <path d="M503 287v34M622 290v35M526 375v29M624 378v28" stroke-width="4"/>
+  <path d="M496 289 Q184 318-120 270M654 289 Q1050 339 1630 320M507 383 Q269 399-120 361M642 385 Q1090 436 1660 441" stroke-width="3"/>
+ </g>
+ <g opacity=".66">
+  <path d="M855 297 861 855" stroke-width="8"/><path d="M779 369h161M794 437h140" stroke-width="6"/>
+  <path d="M800 351v33M904 359v32M817 422v30M916 422v30" stroke-width="3"/>
+  <path d="M781 368Q465 398 0 366M945 372Q1190 409 1600 386M792 439Q520 463 0 457M938 442Q1207 482 1600 464" stroke-width="2.6"/>
+ </g>
+ <g opacity=".50">
+  <path d="M1208 422 1206 801" stroke-width="6"/><path d="M1162 478h98M1168 540h93" stroke-width="4"/>
+  <path d="M1162 479Q920 492 775 467M1265 479Q1474 503 1740 487M1168 540Q970 567 798 536M1256 540Q1474 566 1760 554" stroke-width="2.6"/>
+ </g>
+ <g opacity=".4">
+  <path d="M1427 495 1437 796" stroke-width="4"/><path d="M1390 537h86M1401 583h80" stroke-width="3"/>
+  <path d="M1390 537Q1178 564 899 545M1476 538Q1590 566 1700 562M1401 584Q1200 605 920 603" stroke-width="2"/>
+ </g>
+</g>
+<!-- Additional giant strands foreground -->
+<g stroke="#202123" stroke-width="3" opacity=".4">
+ <path d="M-140 42Q780 105 1730 17"/>
+ <path d="M-140 105Q900 190 1710 97"/>
+ <path d="M-90 550Q780 606 1700 480"/>
+</g>
+<!-- Small human presence; generic anonymous shape -->
+<g transform="translate(799 742)" fill="#312b2d" opacity=".87">
+ <ellipse cx="0" cy="0" rx="9" ry="11"/><path d="M-11 14Q0 5 11 14L16 60H-14z"/><path d="M-9 52 -15 91 -6 92 2 62 9 94 18 93 13 52z"/>
+</g>
+<path d="M790 837 770 980h71l-31-143" fill="#5a2933" opacity=".19"/>
+<path fill="#11181b" opacity=".075" filter="url(#grain)" d="M0 0h1600v980H0z"/>
+<!-- Crosshair as old analog broadcast artifacts -->
+<g stroke="#8d3c4a" stroke-width="1" opacity=".65"><path d="M75 80h38M94 60v40M1525 900h-38M1506 880v40"/></g>
+</svg>
