@@ -592,156 +592,147 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── HERO SECTION ── */}
-      <section className="hero shell" id="top">
-        <div>
-          <div className="signalHeader">
-            <span>PERSONAL NODE / TRANSMISSION 001</span>
-            <span className="signalBars" aria-hidden="true"><i /><i /><i /><i /></span>
+      {/* THE WIRED / ORIGINAL ANALOG LANDING */}
+      <section className="wiredLanding" id="top" aria-label="Jericho Blando developer portfolio">
+        <div className="wiredLandscape" aria-hidden="true" />
+        <div className="wiredBleed" aria-hidden="true" />
+        <div className="wiredTracking shell">
+          <span>RECORD 001 / INDIVIDUAL EXISTENCE</span>
+          <span className="wiredRecordStatus"><span className="wiredLiveDot" /> LINK ESTABLISHED — PH/26</span>
+        </div>
+
+        <div className="wiredStage shell">
+          <div className="wiredEditorial">
+            <div className="wiredIntro">
+              <span className="wiredSquare" />
+              <span>01. IDENTITY / 認識</span>
+              <span className="wiredIntroLine" />
+              <span>00:01:26</span>
+            </div>
+
+            <h1 className="wiredName">
+              <span className="wiredFirst" data-text="JERICHO">JERICHO</span>
+              <span className="wiredLast">BLANDO<span className="wiredNameCursor">_</span></span>
+            </h1>
+            <div className="wiredJapanese" aria-hidden="true">現実とネットワークの境界</div>
+            <p className="wiredIdentity">FULL-STACK DEVELOPER / BS INFORMATION TECHNOLOGY</p>
+            <div className="wiredLeadBlock">
+              <p className="wiredBigThought">Between the real world <em>and the network.</em></p>
+              <p className="wiredDescription">
+                I&apos;m Jericho. I build software that connects complex problems to practical solutions — from academic scheduling engines to full-stack systems, data, and automation.
+              </p>
+            </div>
+            <div className="wiredMainActions">
+              <a className="wiredAction wiredActionPrimary" href="#projects">
+                [ 01 ] ENTER THE ARCHIVE <ArrowIcon />
+              </a>
+              <a className="wiredAction wiredActionSecondary" href="#contact">[ 02 ] TRANSMIT A MESSAGE</a>
+            </div>
+            <div className="wiredMetaLine">
+              <span>○ AVAILABLE FOR REMOTE / JUNIOR OPPORTUNITIES</span>
+              <span>SCROLL TO DECODE ↓</span>
+            </div>
           </div>
-          <div className="statusPill">
-            <span className="statusDot" />
-            Signal Active / Open to Junior &amp; Remote Roles
-          </div>
 
-          <h1>
-            Building systems
-            <span>in the Wired<span className="signalCaret" aria-hidden="true">_</span></span>
-          </h1>
-          <p className="heroIdentity">JERICHO BLANDO — DEVELOPER / BS INFORMATION TECHNOLOGY</p>
-
-          <p className="heroLead">
-            I&apos;m <strong>Jericho Blando</strong>, a BS Information Technology student specializing in backend architecture, constraint optimization algorithms, Django web services, and relational databases.
-          </p>
-
-          <div className="heroActions">
-            <a className="button primary" href="#projects">
-              Explore the archive <ArrowIcon />
-            </a>
-            <a
-              className="button secondary"
-              href="https://github.com/echo10000"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <GithubIcon /> GitHub
-            </a>
-            <a
-              className="button secondary"
-              href="https://www.linkedin.com/in/jericho-blando-5530172b0/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <LinkedInIcon /> LinkedIn
-            </a>
+          <div className="wiredArtStage">
+            <div className="wiredBloodPlate" aria-hidden="true">
+              <span>EVERYTHING / IS CONNECTED</span>
+              <span>196.42 / NODE 01</span>
+            </div>
+            <div className="wiredPortraitConsole">
+              <div className="wiredConsoleChrome"><span>CAPTURE_01.BMP</span><span>□ ─ ×</span></div>
+              <div className="wiredPortraitImage">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/jericho-profile.png" alt="Jericho Blando portrait" loading="eager" />
+                <div className="wiredPortraitFilm" aria-hidden="true"/>
+                <span className="wiredTarget" aria-hidden="true">+</span>
+                <span className="wiredPhotoStamp">SUBJECT / 001<br />JERICHO BLANDO</span>
+              </div>
+              <div className="wiredConsoleFoot">
+                <span>MEMORY VERIFIED</span><span>▰▰▰▰▰▰▰▱</span>
+              </div>
+            </div>
+            <div className="wiredGhostCard">
+              <span>YOU ARE HERE</span>
+              <strong>///</strong>
+              <p>But where does the<br />network begin?</p>
+              <small>STATUS: CONSCIOUS</small>
+            </div>
+            <div className="wiredArtIndex" aria-hidden="true">接 続 中</div>
           </div>
         </div>
 
-        {/* Hero Terminal */}
-        <aside className="terminalCard" aria-label="Technical summary terminal">
-          <div className="terminalTop">
-            <div className="terminalDots">
-              <span className="terminalDot" />
-              <span className="terminalDot" />
-              <span className="terminalDot" />
-            </div>
-            <div className="terminalTitle">navi://jericho.node ~</div>
-          </div>
-
-          <div className="terminalTabs">
-            {[
-              { id: "stack", label: "01.sys" },
-              { id: "capstone", label: "02.build" },
-              { id: "architecture", label: "03.logic" },
-              { id: "status", label: "04.link" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                className={`terminalTab ${activeTerminalTab === tab.id ? "activeTab" : ""}`}
-                onClick={() => setActiveTerminalTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="terminalBody">
-            {activeTerminalTab === "stack" && (
-              <>
-                <p className="termLine">
-                  <span className="termPrompt">$</span>
-                  <span className="termCmd">cat core_technologies.json</span>
-                </p>
-                <p className="termOutput">
-                  &gt; Backend: Python 3, Django, Django REST Framework
-                  <br />
-                  &gt; Optimization: Google OR-Tools (Constraint Satisfaction)
-                  <br />
-                  &gt; Storage: PostgreSQL, MySQL, Normalized Relational Schemas
-                  <br />
-                  &gt; DevOps &amp; Tools: Linux, Git/GitHub, Nginx, Gunicorn
-                </p>
-              </>
-            )}
-
-            {activeTerminalTab === "capstone" && (
-              <>
-                <p className="termLine">
-                  <span className="termPrompt">$</span>
-                  <span className="termCmd">inspect capstone_system</span>
-                </p>
-                <p className="termOutput">
-                  &gt; Name: AI-Powered Faculty Workload &amp; Scheduling Platform
-                  <br />
-                  &gt; Core: Automated Timetable Generation &amp; Clash Prevention
-                  <br />
-                  &gt; Solvers: Multi-dimensional constraint balancing
-                </p>
-              </>
-            )}
-
-            {activeTerminalTab === "architecture" && (
-              <>
-                <p className="termLine">
-                  <span className="termPrompt">$</span>
-                  <span className="termCmd">query engineering_principles</span>
-                </p>
-                <p className="termOutput">
-                  &gt; 01. Correct relational constraints before query caching
-                  <br />
-                  &gt; 02. Deterministic business logic in robust service layers
-                  <br />
-                  &gt; 03. Usable interfaces backed by resilient backend services
-                </p>
-              </>
-            )}
-
-            {activeTerminalTab === "status" && (
-              <>
-                <p className="termLine">
-                  <span className="termPrompt">$</span>
-                  <span className="termCmd">systemctl status developer.target</span>
-                </p>
-                <p className="termOutput">
-                  &gt; State: <span className="termSuccess">● active (building &amp; shipping)</span>
-                  <br />
-                  &gt; Focus: Backend &amp; Full-Stack Engineering Roles
-                  <br />
-                  &gt; Location: Bayawan City, Philippines · Open to Remote
-                </p>
-              </>
-            )}
-
-            <p className="termLine" style={{ marginTop: "12px" }}>
-              <span className="termPrompt">$</span>
-              <span className="cursor" />
-            </p>
-          </div>
-        </aside>
+        <div className="wiredLandingFoot shell">
+          <span>PHYSICAL LAYER ↓</span>
+          <span>▽</span>
+          <span>THIS IS NOT AN ERROR</span>
+        </div>
       </section>
 
-      <div className="wireDivider shell" aria-hidden="true">
-        <span>END OF TRANSMISSION 000 // SCROLL TO CONTINUE</span>
+      <section className="wiredBridge" aria-label="System information archive">
+        <div className="wiredBridgeInner shell">
+          <div className="wiredBridgeHeading">
+            <span className="wiredBridgeSignal">● INCOMING TRANSMISSION</span>
+            <h2>MEMORY /<br /><span>ACCESS LOG</span></h2>
+            <p>Tracing the systems I build.<br />Select a frequency to view the record.</p>
+            <div className="wiredBridgeCoordinates">35° 42' N | THE WIRED | 001</div>
+          </div>
+          <div className="wiredBridgeConsole">
+            <div className="wiredBridgeBar">
+              <span>▤ TERMINAL : ECHO://HOST</span><span>ONLINE <span className="wiredLiveDot" /></span>
+            </div>
+            <div className="wiredBridgeTabs">
+              {[
+                { id: "stack", label: "01 / STACK" },
+                { id: "capstone", label: "02 / BUILD" },
+                { id: "architecture", label: "03 / LOGIC" },
+                { id: "status", label: "04 / STATUS" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  className={"wiredBridgeTab " + (activeTerminalTab === tab.id ? "isActive" : "")}
+                  onClick={() => setActiveTerminalTab(tab.id)}
+                  aria-pressed={activeTerminalTab === tab.id}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            <div className="wiredBridgeOutput" aria-live="polite">
+              <p className="wiredPrompt"><span>root@echo:~#</span> {activeTerminalTab === "stack" ? "cat /etc/skills" : activeTerminalTab === "capstone" ? "inspect capstone" : activeTerminalTab === "architecture" ? "cat /etc/principles" : "ping identity"}</p>
+              {activeTerminalTab === "stack" && <div className="wiredOutputLines">
+                <p><span>BACKEND</span> Python / Django / REST</p>
+                <p><span>DATABASE</span> PostgreSQL / MySQL</p>
+                <p><span>OPTIMIZATION</span> Google OR-Tools</p>
+                <p><span>TOOLS</span> Linux / GitHub / Deployment</p>
+              </div>}
+              {activeTerminalTab === "capstone" && <div className="wiredOutputLines">
+                <p><span>PROJECT</span> Faculty Workload &amp; Scheduling</p>
+                <p><span>ENGINE</span> Constraint solving &amp; clash prevention</p>
+                <p><span>BACKEND</span> Django &amp; relational data</p>
+                <p><span>STATE</span> In development</p>
+              </div>}
+              {activeTerminalTab === "architecture" && <div className="wiredOutputLines">
+                <p><span>PRINCIPLE_01</span> Correctness before shortcuts</p>
+                <p><span>PRINCIPLE_02</span> Resilient service layers</p>
+                <p><span>PRINCIPLE_03</span> Interfaces people can actually use</p>
+                <p><span>PROCESS</span> Build / Test / Iterate</p>
+              </div>}
+              {activeTerminalTab === "status" && <div className="wiredOutputLines">
+                <p><span>IDENTITY</span> Jericho Blando</p>
+                <p><span>LOCATION</span> Negros Oriental / Philippines</p>
+                <p><span>AVAILABILITY</span> <b>● Open to opportunities</b></p>
+                <p><span>FOCUS</span> Backend / Full-stack / AI tooling</p>
+              </div>}
+              <p className="wiredPrompt wiredPromptBottom"><span>root@echo:~#</span><span className="wiredCommandCaret">█</span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="wiredInterlude" aria-hidden="true">
+        <span>there is no distance between signals.</span>
+        <strong>接続 / CONNECTION</strong>
       </div>
 
       {/* ── 01 / ABOUT SECTION ── */}
