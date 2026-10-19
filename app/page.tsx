@@ -628,6 +628,10 @@ export default function Home() {
               </a>
               <a className="wiredAction wiredActionSecondary" href="#contact">[ 02 ] TRANSMIT A MESSAGE</a>
             </div>
+            <div className="wiredSocialLinks">
+              <a href="https://github.com/echo10000" target="_blank" rel="noreferrer"><GithubIcon /> GITHUB ↗</a>
+              <a href="https://www.linkedin.com/in/jericho-blando-5530172b0/" target="_blank" rel="noreferrer"><LinkedInIcon /> LINKEDIN ↗</a>
+            </div>
             <div className="wiredMetaLine">
               <span>○ AVAILABLE FOR REMOTE / JUNIOR OPPORTUNITIES</span>
               <span>SCROLL TO DECODE ↓</span>
