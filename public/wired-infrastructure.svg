@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 630" fill="none" role="img" aria-label="Abstract retro communication poles and network wires">
+  <defs>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#7a929b" stop-opacity="0"/>
+      <stop offset=".48" stop-color="#7a929b" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#a9c0be" stop-opacity=".8"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#ad334b" stop-opacity=".23"/>
+      <stop offset="1" stop-color="#ad334b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="820" cy="255" r="290" fill="url(#glow)"/>
+  <g stroke="url(#fade)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M684 90 L666 616 M679 157 L1034 190 M674 270 L1086 305 M669 399 L1100 427"/>
+    <path d="M881 15 L898 620 M883 116 L1098 122 M886 219 L1100 225 M890 357 L1100 374"/>
+    <path d="M932 0 L918 620 M932 85 L1088 89 M927 180 L1099 186"/>
+    <path d="M561 207 L954 178 M560 213 L956 196 M551 291 C752 302 844 363 1100 306 M551 305 C714 332 892 414 1100 322"/>
+    <path d="M512 122 C717 128 875 145 1100 128 M492 154 C755 166 893 207 1100 191"/>
+    <path d="M511 375 C720 353 866 407 1100 431 M514 386 C731 376 871 437 1100 449"/>
+    <path d="M580 93 L585 625 M548 167 L620 170 M547 283 L623 286 M538 390 L627 394"/>
+    <path d="M653 171 L693 171 M644 286 L703 289 M642 406 L697 407"/>
+    <path d="M860 123 L917 123 M864 225 L919 227 M868 361 L922 362"/>
+  </g>
+  <g stroke="#a35262" stroke-width="2" opacity=".64">
+    <path d="M667 157 l-8 -11 m8 11 l9 -10 M674 270 l-8 -8 m8 8 l9 -8 M882 115 l-7 -7 m7 7 l8 -7"/>
+  </g>
+  <g fill="#b7d3bc" opacity=".7">
+    <circle cx="680" cy="158" r="3"/><circle cx="669" cy="271" r="3"/>
+    <circle cx="882" cy="116" r="3"/><circle cx="888" cy="219" r="3"/>
+    <circle cx="550" cy="291" r="3"/><circle cx="916" cy="180" r="3"/>
+  </g>
+  <g font-family="monospace" font-size="13" letter-spacing="3" fill="#9bc4b1" opacity=".55">
+    <text x="753" y="505">WIRED / NO SIGNAL LOST</text>
+    <text x="790" y="527">0110 1001 0110</text>
+  </g>
+</svg>
