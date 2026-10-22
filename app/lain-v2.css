@@ -93,7 +93,12 @@
   padding-top: 60px;
   padding-bottom: 105px;
 }
-.wiredEditorial { position: relative; z-index: 7; min-width: 0; }
+.wiredEditorial {
+  position: relative;
+  z-index: 7;
+  min-width: 0;
+  container-type: inline-size;
+}
 .wiredIntro {
   display: flex;
   align-items: center;
@@ -106,33 +111,50 @@
 .wiredSquare { width: 10px; height: 10px; background: #9e394a; }
 .wiredIntroLine { width: 58px; height: 1px; background: rgba(68,56,58,.5); }
 .wiredIntro > span:last-child { color: #6a6561; letter-spacing: 0; font-size: 10px; }
+/* Two clear, intentionally separated lines; no glyph compression or duplicate glitch layer. */
 .wiredName {
   position: relative;
-  font-family: Impact, "Arial Narrow", "Arial Black", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .08em;
+  font-family: "Arial Black", "Segoe UI", system-ui, sans-serif;
   font-weight: 900;
-  letter-spacing: -.059em;
-  line-height: .78;
+  letter-spacing: -.035em;
+  line-height: 1.03;
   margin: 0;
   text-transform: uppercase;
-  transform: scaleX(.93);
-  transform-origin: left;
-  font-size: clamp(76px, 10vw, 148px);
+  transform: none;
+  font-size: clamp(52px, 6.4vw, 104px);
+  font-size: clamp(52px, 16.5cqw, 104px);
 }
-.wiredName > span { display: block; width: max-content; max-width: none; }
-.wiredFirst { position: relative; color: #222526; text-shadow: 3px 0 0 rgba(134,41,53,.08); }
-.wiredFirst::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 3px;
-  top: 0;
-  color: #ac2d42;
-  opacity: .5;
-  clip-path: inset(47% 0 44%);
-  transform: translateX(-5px);
-  pointer-events: none;
+.wiredName > span {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  white-space: nowrap;
+  line-height: inherit;
 }
-.wiredLast { color: #a4374d; margin-left: 37px; position: relative; }
-.wiredNameCursor { font-size: .63em; opacity: .64; animation: wiredBlink 2.3s steps(1,end) infinite; }
+.wiredFirst {
+  position: relative;
+  color: #222526;
+  text-shadow: none;
+}
+.wiredFirst::after { content: none; display: none; }
+.wiredLast {
+  position: relative;
+  color: #a4374d;
+  margin-left: 0;
+}
+.wiredNameCursor {
+  display: inline-block;
+  font-size: .46em;
+  margin-left: .07em;
+  font-weight: 600;
+  opacity: .64;
+  vertical-align: baseline;
+  animation: wiredBlink 2.3s steps(1,end) infinite;
+}
 .wiredJapanese {
   position: absolute;
   top: 49%;
@@ -518,7 +540,7 @@
 
 @media (max-width: 1080px) {
   .wiredStage { grid-template-columns: minmax(0,1.06fr) minmax(310px,.94fr); min-height: 620px; }
-  .wiredName { font-size: clamp(68px,9.6vw,110px); }
+  .wiredName { font-size: clamp(50px, 16.5cqw, 100px); }
   .wiredArtStage { min-height: 510px; }
   .wiredPortraitImage { height: 370px; }
   .wiredGhostCard { right: -1%; }
@@ -527,7 +549,7 @@
   .wiredLanding { min-height: 0; }
   .wiredStage { grid-template-columns: 1fr; gap: 25px; padding-top: 45px; padding-bottom: 70px; }
   .wiredIntro { margin-bottom: 35px; }
-  .wiredName { font-size: clamp(80px,16vw,134px); }
+  .wiredName { font-size: clamp(52px, 16.5cqw, 100px); }
   .wiredEditorial { max-width: 610px; }
   .wiredArtStage { min-height: 510px; width: min(100%,600px); margin: 0 auto; }
   .wiredPortraitConsole { width: min(64%,330px); }
@@ -546,8 +568,8 @@
   .wiredIntro { font-size: 9px; margin-bottom: 30px; }
   .wiredIntroLine { width: 25px; }
   .wiredIntro > span:last-child { display:none; }
-  .wiredName { font-size: clamp(64px, 16vw, 92px); }
-  .wiredLast { margin-left: 12px; }
+  .wiredName { font-size: clamp(46px, 16.5cqw, 80px); }
+  .wiredLast { margin-left: 0; }
   .wiredJapanese { top: 32%; right: 0; opacity: .65; font-size: 9px; }
   .wiredIdentity { font-size: 9px; margin: 25px 0; }
   .wiredBigThought { font-size: clamp(24px, 6vw, 32px); }
