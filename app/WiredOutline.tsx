@@ -190,7 +190,7 @@ export default function WiredOutline(){
           <span>ART BY <a href={ARTIST_URL} target="_blank" rel="noopener noreferrer">YOSHITOSHI ABe ↗</a></span>
           <a href={ART_URL} target="_blank" rel="noopener noreferrer">VIEW ARTWORK ↗</a>
         </div>
-        <button type="button" onClick={()=>setRun(n=>n+1)} aria-label="Replay the original artwork outline drawing">↺ DRAW AGAIN</button>
+        <button type="button" onClick={()=>setRun(n=>n+1)} aria-label="Replay the original artwork sketch animation">↺ REPLAY SKETCH</button>
       </figcaption>
     </figure>
   );
