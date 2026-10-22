@@ -462,7 +462,8 @@
   .wiredLanding--v3 .wiredSocialLinks,
   .wiredLanding--v3 .wiredMetaLine,
   .wiredArtStage--v3 .inkStudy,
-  .wiredArtifactAura,
+  .wiredArtifactAura {
+    animation: none !important;
     filter: none !important;
   }
   .wiredArtStage--v3 .inkStudy { transform: none !important; }
