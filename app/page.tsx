@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import WiredOutline from "./WiredOutline";
 
 /* ──────────────────────────────────────────────
    DATA DEFINITIONS
@@ -639,30 +640,7 @@ export default function Home() {
           </div>
 
           <div className="wiredArtStage">
-            <div className="wiredBloodPlate" aria-hidden="true">
-              <span>EVERYTHING / IS CONNECTED</span>
-              <span>196.42 / NODE 01</span>
-            </div>
-            <div className="wiredPortraitConsole">
-              <div className="wiredConsoleChrome"><span>CAPTURE_01.BMP</span><span>□ ─ ×</span></div>
-              <div className="wiredPortraitImage">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/jericho-profile.png" alt="Jericho Blando portrait" loading="eager" />
-                <div className="wiredPortraitFilm" aria-hidden="true"/>
-                <span className="wiredTarget" aria-hidden="true">+</span>
-                <span className="wiredPhotoStamp">SUBJECT / 001<br />JERICHO BLANDO</span>
-              </div>
-              <div className="wiredConsoleFoot">
-                <span>MEMORY VERIFIED</span><span>▰▰▰▰▰▰▰▱</span>
-              </div>
-            </div>
-            <div className="wiredGhostCard">
-              <span>YOU ARE HERE</span>
-              <strong>///</strong>
-              <p>But where does the<br />network begin?</p>
-              <small>STATUS: CONSCIOUS</small>
-            </div>
-            <div className="wiredArtIndex" aria-hidden="true">接 続 中</div>
+            <WiredOutline />
           </div>
         </div>
 
