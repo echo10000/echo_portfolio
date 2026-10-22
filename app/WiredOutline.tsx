@@ -110,7 +110,7 @@ function traceRealContours(image: HTMLImageElement): Line[] {
     .filter(line=>++groupCount[line.group]<=groupLimit[line.group]);
 }
 
-export default function WiredOutline(){
+export default function WiredOutline({ onOpenArchive }: { onOpenArchive?: () => void }){
   const canvasRef=useRef<HTMLCanvasElement>(null);
   const [run,setRun]=useState(0);
   const [ready,setReady]=useState(false);
@@ -183,6 +183,18 @@ export default function WiredOutline(){
               onError={()=>setFailed(true)}/>
           </>
         )}
+        {onOpenArchive && (
+          <button
+            className="inkStudy__naviHotspot"
+            type="button"
+            onClick={onOpenArchive}
+            aria-label="Open interactive project files through the NAVI monitor"
+            title="Explore my projects"
+          >
+            <span className="inkStudy__naviPoint" aria-hidden="true">✦</span>
+            <span className="inkStudy__naviHint" aria-hidden="true">OPEN ARCHIVE ↗</span>
+          </button>
+        )}
         <span className="inkStudy__tag" aria-hidden="true">ORIGINAL ART / LIVE TRACING</span>
       </div>
       <figcaption className="inkStudy__footer">
@@ -190,7 +202,14 @@ export default function WiredOutline(){
           <span>ART BY <a href={ARTIST_URL} target="_blank" rel="noopener noreferrer">YOSHITOSHI ABe ↗</a></span>
           <a href={ART_URL} target="_blank" rel="noopener noreferrer">VIEW ARTWORK ↗</a>
         </div>
-        <button type="button" onClick={()=>setRun(n=>n+1)} aria-label="Replay the original artwork sketch animation">↺ REPLAY SKETCH</button>
+        <div className="inkStudy__actions">
+          {onOpenArchive && (
+            <button className="inkStudy__openButton" type="button" onClick={onOpenArchive}>
+              OPEN FILES ↗
+            </button>
+          )}
+          <button type="button" onClick={()=>setRun(n=>n+1)} aria-label="Replay the original artwork sketch animation">↺ REPLAY SKETCH</button>
+        </div>
       </figcaption>
     </figure>
   );
