@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 
 /**
  * Original line-art transmission: a quiet operator using a retro CRT.
@@ -183,7 +183,7 @@ export default function WiredOutline() {
               d={d}
               pathLength={1}
               className={"wtrace__stroke wtrace__stroke--" + tone}
-              style={{ "--stroke-index": index } as CSSProperties}
+              style={{ animationDelay: `${index * 68}ms` }}
             />
           ))}
           <g className="wtrace__completion" aria-hidden="true">
