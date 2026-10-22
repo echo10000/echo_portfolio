@@ -490,6 +490,7 @@ export default function Home() {
 
   const openArchive = (index = 0) => {
     setActiveArchiveFile(index);
+    setProjectFilter("all");
     document.getElementById("wired-archive")?.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       block: "start",
@@ -669,7 +670,12 @@ export default function Home() {
       </section>
 
       {/* NAVI PROJECT ARCHIVE / PREVIEW EXPERIMENT */}
-      <WiredArchive projects={projects} activeIndex={activeArchiveFile} onSelect={setActiveArchiveFile} />
+      <WiredArchive
+        projects={projects}
+        activeIndex={activeArchiveFile}
+        onSelect={(index) => { setActiveArchiveFile(index); setProjectFilter("all"); }}
+        onViewRecord={() => setProjectFilter("all")}
+      />
 
       {/* ── 01 / ABOUT SECTION ── */}
       <section className="section shell" id="about">
