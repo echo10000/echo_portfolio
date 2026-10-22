@@ -242,3 +242,69 @@
   .wtrace__completion { animation: none !important; opacity: 1; }
   .wtrace { transform: none; }
 }
+
+
+/* LAYER 01 / recognizable Lain character rebuild */
+.wtrace--lain {
+  transform: rotate(-.65deg);
+  background: #edeade;
+  border-color: #554c50;
+  box-shadow: 8px 9px 0 #9d354b, 17px 20px 0 rgba(43, 37, 43, .28), 24px 34px 54px rgba(41, 31, 36, .27);
+}
+.wtrace__paper--lain {
+  background:
+    radial-gradient(ellipse at 74% 38%, rgba(148, 54, 70, .11), transparent 58%),
+    linear-gradient(140deg, #f0ede3, #dbd7cc 88%);
+}
+.wtrace__paper--lain::before { opacity: .08; }
+.wtrace--lain .wtrace__color {
+  opacity: 0;
+  animation: wtrace-wash 1700ms ease-out 5500ms forwards;
+}
+.wtrace--lain .wtrace__stroke {
+  stroke: #332b33;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  animation-duration: 1200ms;
+}
+.wtrace--lain .wtrace__stroke--lain-faint {
+  stroke: #655e60;
+  stroke-width: 1.4;
+  opacity: .72;
+}
+.wtrace--lain .wtrace__stroke--lain-red {
+  stroke: #a13349;
+  stroke-width: 2.6;
+}
+.wtrace--lain .wtrace__stroke--lain-screen {
+  stroke: #38648c;
+  stroke-width: 2;
+}
+.wtrace--lain .wtrace__serial {
+  color: #8b3247;
+  font-size: 10px;
+  letter-spacing: .045em;
+}
+.wtrace--lain .wtrace__caption {
+  background: rgba(240, 234, 222, .88);
+  color: #744253;
+}
+.wtrace--lain .wtrace__top { background: #2e3038; }
+.wtrace--lain .wtrace__bottom { background: #e5ded0; }
+.wtrace--lain .wtrace__completion {
+  opacity: 0;
+  animation: wtrace-wash .5s ease-out 7050ms forwards;
+}
+@media (max-width: 550px) {
+  .wtrace--lain { transform: rotate(-.2deg); }
+  .wtrace--lain .wtrace__serial { font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wtrace--lain .wtrace__color,
+  .wtrace--lain .wtrace__completion {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
