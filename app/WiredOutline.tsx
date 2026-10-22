@@ -1,214 +1,180 @@
 "use client";
-
 import { useState } from "react";
 
-/**
- * Original line-art transmission: a quiet operator using a retro CRT.
- * Every path is a real SVG stroke. CSS reveals the contour in sequence,
- * rather than cross-fading a pre-rendered photograph.
- */
-type TraceTone = "ink" | "faint" | "red" | "signal";
-type Trace = readonly [path: string, tone?: TraceTone];
+/** Hand-drawn SVG line art. Every contour has its own timed stroke reveal. */
+type Ink = "ink" | "faint" | "red" | "screen";
+type Path = readonly [string, Ink?];
 
-const contours: Trace[] = [
-  // Distant wire / signal scaffolding
-  ["M22 141 C183 112 341 140 477 108 C633 71 758 70 889 82","faint"],
-  ["M9 195 C202 160 332 203 493 161 C653 122 779 152 889 137","faint"],
-  ["M41 111 L49 345 M18 153 L94 149 M28 210 L101 205","faint"],
-  ["M795 72 L802 265 M756 106 L843 106 M776 176 L832 177","faint"],
-  ["M663 86 L665 151 M641 108 L692 108","faint"],
-  ["M16 697 L888 697 M29 714 L884 714","faint"],
-
-  // Computer / deep frame and perspective body
-  ["M71 235 L435 216 L464 606 L84 625 Z"],
-  ["M435 216 L485 251 L501 600 L464 606"],
-  ["M71 235 L105 257 L111 583 L84 625","faint"],
-  ["M105 267 L402 254 Q412 253 414 267 L426 535 Q427 547 413 548 L111 570 Q99 571 99 559 L93 283 Q93 271 105 267 Z"],
-  ["M119 282 L390 270 L402 522 L123 542 Z","red"],
-  ["M109 266 L121 281 M402 254 L390 270 M426 535 L402 522 M111 570 L123 542","faint"],
-  ["M89 603 Q230 593 422 579 L463 604","faint"],
-  ["M130 629 L423 620 L427 641 L134 649 Z"],
-  ["M170 649 L177 678 L369 676 L389 641","faint"],
-  ["M146 621 L435 608","faint"],
-  ["M445 291 L459 522 M466 281 L479 529","faint"],
-  ["M443 558 L452 561 M443 568 L452 570 M444 580 L453 582","faint"],
-  ["M441 586 A5 5 0 1 0 451 586 A5 5 0 1 0 441 586","red"],
-  ["M457 252 L477 267 M466 268 L479 280","faint"],
-
-  // The CRT displays a small ghost of the outside world
-  ["M151 476 L151 393 L175 393 L175 463 M176 466 L176 350 L192 350 L192 471","faint"],
-  ["M201 475 L201 407 L224 407 L224 474 M226 473 L226 369 L244 369 L244 474","faint"],
-  ["M254 474 L254 389 L276 389 L276 472 M282 468 L282 428 L310 428 L310 470","faint"],
-  ["M314 470 L314 356 L321 356 L321 470 M319 379 L361 382","faint"],
-  ["M135 437 C200 417 270 427 380 406","red"],
-  ["M139 446 C217 458 310 439 383 433","faint"],
-  ["M129 478 L388 462 M142 489 L381 482","faint"],
-  ["M175 345 L180 318 M156 328 L204 331","faint"],
-  ["M319 356 L318 296 M289 319 L348 319","faint"],
-  ["M151 363 Q270 351 386 342","faint"],
-  ["M136 512 L208 509 M238 505 L309 501 M325 500 L380 497","red"],
-
-  // Side cabinet, tower, floppy-drive architecture
-  ["M474 597 L539 595 L543 670 L469 672 Z","faint"],
-  ["M483 613 L529 610 M485 623 L530 620 M484 641 L530 637","faint"],
-  ["M500 651 L524 649","red"],
-  ["M81 631 L81 676 M465 606 L468 681","faint"],
-
-  // Girl's hair silhouette / crown: distinct anime profile
-  ["M521 352 C506 325 500 282 505 244 C510 176 542 129 599 112 C645 96 699 105 733 129 C778 160 803 209 793 272 C806 317 800 366 773 402"],
-  ["M521 350 C509 382 504 412 493 440 C517 431 533 416 546 399","ink"],
-  ["M529 209 C544 162 577 133 624 119 C694 102 753 147 771 214","faint"],
-  ["M515 246 C508 216 510 185 529 158 C537 204 538 238 526 265"],
-  ["M551 151 C538 202 546 242 527 282 C552 272 569 240 575 218"],
-  ["M591 125 C576 185 585 237 551 282 C580 279 600 256 605 225"],
-  ["M624 116 C629 162 622 216 596 256 C620 245 649 217 652 180"],
-  ["M665 115 C691 145 708 201 696 244 C714 224 717 199 714 177"],
-  ["M717 131 C751 177 758 215 750 254 C765 235 770 213 767 199"],
-  ["M777 234 C788 273 785 329 768 354 C773 310 748 269 737 246"],
-  ["M787 303 C808 345 804 395 779 426 L747 401"],
-  ["M747 237 C764 277 758 328 751 377 C747 411 767 440 798 446","faint"],
-  ["M757 351 C744 388 749 431 780 461","faint"],
-  ["M510 286 C505 308 505 323 494 337 Q488 344 500 350 L517 356"],
-  // face, ear, neck
-  ["M527 280 C527 315 526 354 543 379 C556 399 579 411 608 411 C644 411 661 389 679 364","ink"],
-  ["M515 351 C527 359 537 359 545 352","faint"],
-  ["M534 379 C548 385 561 386 570 382","faint"],
-  ["M589 409 L590 445 M656 400 C656 420 663 438 683 454","ink"],
-  ["M599 427 C617 435 640 437 655 429","faint"],
-  ["M652 346 Q664 345 674 338","faint"],
-  ["M654 351 C656 355 658 355 663 356","faint"],
-  // ear and hardware
-  ["M672 287 C687 273 701 286 701 304 C701 326 691 337 681 342","ink"],
-  ["M684 297 C691 298 695 312 687 321","faint"],
-  ["M691 294 L711 291 L716 318 L698 322 Z","red"],
-  ["M703 293 L708 318 M714 308 C738 320 763 345 771 367","red"],
-  // anime eye, expression, bangs
-  ["M516 301 Q535 290 553 295 Q562 299 570 307"],
-  ["M521 304 Q540 313 558 307","ink"],
-  ["M540 297 C533 300 533 309 541 311 C548 309 549 301 544 298","red"],
-  ["M528 293 L524 287 M536 291 L535 285 M548 293 L549 287","faint"],
-  ["M518 280 Q542 268 565 277","faint"],
-  ["M506 343 L520 344","faint"],
-  ["M538 367 Q552 374 566 368","red"],
-  ["M560 372 Q564 375 568 372","faint"],
-
-  // Oversized shirt and distant shoulder
-  ["M598 438 C632 431 663 440 691 448 C739 460 780 494 800 545 C816 586 815 643 835 687","ink"],
-  ["M584 438 C553 444 530 465 517 502 C497 551 477 587 443 607","ink"],
-  ["M690 450 C721 470 732 497 746 532 C759 561 779 587 796 612","faint"],
-  ["M801 544 C838 581 845 624 843 661","faint"],
-  ["M596 437 C593 455 587 466 572 485","faint"],
-  ["M671 444 Q656 461 637 467 M687 455 Q678 480 665 500","faint"],
-  // sleeves, reaching keyboard with pose
-  ["M551 491 C532 535 505 573 470 600 C450 613 434 621 407 627"],
-  ["M577 503 C558 559 532 610 494 634 C477 643 459 644 446 645"],
-  ["M470 602 Q490 617 500 637 M446 614 Q468 635 472 646","faint"],
-  ["M767 546 C757 594 729 621 676 639 C637 652 583 662 549 657"],
-  ["M786 595 C782 647 753 687 710 708 L653 715","ink"],
-  ["M693 635 C705 653 710 669 714 686","faint"],
-  ["M735 611 C748 627 754 649 747 661","faint"],
-  ["M611 506 Q628 539 630 568 M620 484 L627 497","faint"],
-  // keyboard and desk in front, foreground perspective
-  ["M170 676 L476 657 L589 722 L246 758 Z"],
-  ["M246 758 L246 770 L592 735 L589 722 M170 676 L170 689 L246 770","faint"],
-  ["M198 690 L480 674 L553 720 L259 743 Z","faint"],
-  ["M215 699 L490 685 M227 710 L509 696 M240 722 L530 708 M254 733 L545 718","faint"],
-  ["M230 687 L282 731 M274 683 L326 729 M321 681 L374 725 M369 677 L423 722 M420 674 L477 719 M466 670 L521 715","faint"],
-  ["M179 683 L240 750 M585 728 L637 748 L889 732","faint"],
-  ["M187 774 L899 753","faint"],
-  // hands at keyboard: wrists/palm/fingers
-  ["M405 630 C417 623 427 626 441 637 L469 648"],
-  ["M407 629 C389 625 372 630 362 640 Q354 649 360 653 Q365 657 382 652 L405 646","ink"],
-  ["M374 640 Q355 639 336 650 Q324 659 331 665 Q337 671 351 665 L377 657"],
-  ["M363 647 Q342 646 318 661 Q311 668 318 675 Q324 680 336 674 L361 664"],
-  ["M351 653 Q331 661 312 675 Q303 683 311 690 Q320 694 339 680","faint"],
-  ["M555 650 C538 646 523 649 512 657 Q500 665 505 672 Q511 676 530 669","ink"],
-  ["M541 663 Q522 659 512 673 Q508 681 516 685 Q526 691 539 680","faint"],
-  ["M536 678 Q524 684 526 692 Q533 699 552 692","faint"],
-  // clothing folds and cable tangles
-  ["M551 500 Q556 532 539 551 M574 553 Q582 594 556 616","faint"],
-  ["M636 568 Q666 587 685 621 M650 701 Q679 693 698 680","faint"],
-  ["M814 682 C816 744 804 792 775 826 M779 713 C773 750 742 780 718 825","ink"],
-  ["M590 709 C590 747 597 785 620 827 M633 725 C638 766 648 789 662 831","ink"],
-  ["M528 746 Q570 744 604 754","faint"],
-  ["M80 638 C34 661 48 732 100 747 C145 767 190 746 186 797","faint"],
-  ["M456 589 C498 581 510 613 488 629","faint"],
-  ["M496 598 Q550 577 575 615","faint"],
-  ["M880 405 C853 429 847 480 875 514","faint"],
-  ["M710 298 Q745 317 759 342","faint"],
-  // Signal etch fragments
-  ["M756 121 L805 121 M783 95 L783 146","red"],
-  ["M57 743 L57 777 M42 758 L74 758","red"],
-  ["M480 127 L536 127 M492 118 L492 136","red"],
-  ["M835 676 L871 676 M853 658 L853 696","red"],
+const outlines: Path[] = [
+  // 1998-era NAVI terminal
+  ["M63 221 L395 205 Q418 206 429 228 L458 554 Q460 577 444 584 L105 607 Q85 607 81 585 L61 240 Q60 225 63 221Z"],
+  ["M395 205 L447 227 L469 558 L444 584","faint"],
+  ["M103 252 Q103 243 116 243 L386 231 Q398 230 401 244 L415 520 Q418 535 405 539 L134 558 Q122 560 120 546Z"],
+  ["M141 268 L382 250 Q391 250 391 261 L403 507 Q403 521 390 521 L151 537 Q143 538 142 529 Z","screen"],
+  ["M82 236 L102 253 M105 606 L132 557 M443 581 L415 538","faint"],
+  ["M124 575 L387 556 M129 588 L393 575","faint"],
+  ["M427 561 A6 6 0 1 0 439 561 A6 6 0 1 0 427 561","red"],
+  ["M170 606 L179 635 L397 622 L404 588","faint"],
+  ["M210 633 L213 650 L365 645 L365 624","faint"],
+  ["M476 337 L515 330 L522 626 L470 635 Z","faint"],
+  ["M482 382 H510 M482 397 H510 M485 414 H510","faint"],
+  // bright NAVI graphics
+  ["M163 298 L368 284 M163 307 L307 297","screen"],
+  ["M187 374 Q222 337 261 371 Q221 404 187 374Z","screen"],
+  ["M222 352 C203 352 203 388 224 388 C245 388 245 352 222 352Z","screen"],
+  ["M219 361 V380 M211 370 H233","screen"],
+  ["M279 360 L361 355 M279 373 L340 370 M279 386 L365 381","screen"],
+  ["M166 445 L363 433 M170 456 L320 449 M170 469 L359 455","screen"],
+  ["M172 483 L237 477 M258 475 L355 468","screen"],
+  // Head: short choppy brown bob, not generic long black hair
+  ["M523 302 Q511 280 518 238 Q527 172 579 146 Q609 127 647 127 Q722 126 759 183 Q790 222 776 293"],
+  ["M533 235 Q526 191 559 161 Q594 131 645 131","faint"],
+  ["M672 133 Q735 151 758 219","faint"],
+  ["M535 253 L549 292 L558 270 L576 300 L586 270 L604 295 L614 268 L630 289 L641 258 L654 280 L669 258 L682 275 L698 251 L710 263 L724 244"],
+  ["M541 191 Q551 224 540 259","faint"],
+  ["M572 158 Q585 195 572 243","faint"],
+  ["M612 136 Q625 185 614 236","faint"],
+  ["M650 131 Q673 170 667 224","faint"],
+  ["M701 148 Q733 179 739 220","faint"],
+  ["M532 289 Q522 318 530 355 Q535 383 555 400"],
+  ["M765 248 Q784 284 773 328 Q759 358 748 368"],
+  // Lain's thin single long side lock
+  ["M733 301 C740 371 737 439 728 505 Q742 526 751 525","ink"],
+  ["M748 310 C756 362 754 432 751 525","faint"],
+  ["M756 356 C776 392 780 416 773 443","faint"],
+  // Face with smaller pointed chin
+  ["M554 283 C550 315 553 364 572 395 Q593 426 636 431 Q676 432 709 395 Q733 363 731 285"],
+  ["M709 288 Q725 275 738 293 Q747 308 731 333","faint"],
+  ["M725 295 Q734 307 725 317","faint"],
+  // Eyes, deliberately 90s anime proportions
+  ["M576 324 Q603 298 636 325","ink"],
+  ["M577 330 Q605 347 636 329","ink"],
+  ["M658 324 Q683 302 712 326","ink"],
+  ["M659 332 Q686 347 711 330","ink"],
+  ["M591 325 C589 307 618 305 619 324 Q618 344 604 342 Q591 339 591 325","faint"],
+  ["M673 326 C670 308 699 307 699 326 Q698 345 687 341 Q674 341 673 326","faint"],
+  ["M582 310 Q609 296 632 306","faint"],
+  ["M664 307 Q691 297 707 309","faint"],
+  ["M644 334 Q635 350 640 360 L648 364","faint"],
+  ["M624 389 Q636 396 650 388","red"],
+  ["M616 399 Q639 409 659 397","faint"],
+  // Critical unmistakable crossed hairclip
+  ["M722 273 L750 307 M748 272 L724 305","red"],
+  ["M726 268 L730 266 M750 307 L753 309","faint"],
+  // Neck, school blazer, ivory lapels and red ribbon
+  ["M593 423 L590 459 M692 407 L696 459"],
+  ["M594 459 Q565 468 533 501 Q499 535 479 583"],
+  ["M700 455 Q758 470 791 513 Q822 557 831 661"],
+  ["M596 465 L640 528 L699 460","faint"],
+  ["M599 460 L612 522 L642 535 M695 460 L677 525 L647 535"],
+  ["M631 536 L646 553 L660 540 L647 523Z","red"],
+  ["M638 556 Q635 609 645 656 M653 554 Q655 604 664 639","red"],
+  ["M573 513 L609 572 M721 503 L684 579","faint"],
+  ["M540 498 Q559 507 576 553 M757 488 Q741 517 744 554","faint"],
+  ["M551 553 Q526 612 482 646"],
+  ["M805 550 Q802 616 776 674"],
+  ["M590 618 L583 733 Q656 764 769 734 L773 643"],
+  ["M603 630 Q628 649 639 674 M686 607 L700 715","faint"],
+  ["M575 719 Q660 745 766 727","faint"],
+  // Arms / hands on keyboard
+  ["M544 555 Q519 589 497 629 L465 653"],
+  ["M570 569 Q562 620 514 665"],
+  ["M465 652 Q448 645 430 664 L417 678 Q414 685 423 688 L448 678"],
+  ["M440 670 L416 688 Q408 697 416 701 L456 684","faint"],
+  ["M457 687 L429 703 Q424 711 433 716 L470 701","faint"],
+  ["M472 699 L463 714 Q467 722 480 715","faint"],
+  ["M772 631 Q750 674 709 688 L575 701"],
+  ["M766 667 Q744 719 697 732","faint"],
+  ["M577 696 Q544 687 519 705 Q510 714 522 719 L553 707"],
+  ["M549 714 L529 726 Q529 733 547 731 L568 720","faint"],
+  // keyboard and desk
+  ["M179 647 L476 628 L582 711 L273 746Z"],
+  ["M273 746 L273 760 L584 723 L582 711","faint"],
+  ["M179 647 L179 663 L273 760","faint"],
+  ["M201 660 L486 647 M219 673 L502 663 M239 688 L519 679 M256 704 L545 698 M267 721 L558 712","faint"],
+  ["M224 652 L303 737 M266 648 L345 732 M307 645 L392 729 M352 641 L437 725 M400 637 L484 717 M448 633 L531 715","faint"],
+  ["M125 770 L879 746 M83 788 L891 764","faint"],
+  // cables and broadcast fragments
+  ["M97 609 C34 643 42 711 94 723 C172 745 218 759 202 821","faint"],
+  ["M448 582 Q511 562 501 621","faint"],
+  ["M780 397 Q835 429 838 496","faint"],
+  ["M810 136 L842 136 M826 119 L826 153","red"],
+  ["M70 137 L99 137 M85 123 L85 150","red"]
 ];
 
 export default function WiredOutline() {
-  const [renderPass, setRenderPass] = useState(0);
-
+  const [pass, setPass] = useState(0);
   return (
-    <div className="wtrace" aria-label="Animated hand-drawn scene of a quiet girl at a 1990s computer">
+    <div className="wtrace wtrace--lain" aria-label="Animated line drawing of Lain Iwakura at her NAVI computer">
       <div className="wtrace__top" aria-hidden="true">
-        <span>INK_DECODER.EXE / V.03</span>
-        <span className="wtrace__online">● CAPTURING</span>
+        <span>LAYER_01 / LAIN IWAKURA</span>
+        <span className="wtrace__online">● CONNECTING</span>
       </div>
-
-      <div className="wtrace__paper">
-        <div className="wtrace__serial" aria-hidden="true">SUBJECT / UNKNOWN_01</div>
-        <svg
-          className="wtrace__svg"
-          key={renderPass}
-          viewBox="0 0 900 850"
-          role="img"
-          aria-label="A line drawing gradually traces a dark-haired anime-inspired girl sitting beside an old CRT monitor, wires, and keyboard."
-          preserveAspectRatio="xMidYMid meet"
-        >
+      <div className="wtrace__paper wtrace__paper--lain">
+        <svg key={pass} className="wtrace__svg" viewBox="0 0 900 850" role="img" aria-label="Lain with short brown bangs, a crossed hairclip, a long side lock, navy school uniform and red ribbon beside a blue NAVI monitor. Her outlines gradually draw themselves.">
           <defs>
-            <linearGradient id="wtrace-screen" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#ebe8db" stopOpacity=".95" />
-              <stop offset="1" stopColor="#9a9a90" stopOpacity=".56" />
+            <linearGradient id="lain-blue-screen" x1="0" y1="0" x2=".7" y2="1">
+              <stop offset="0" stopColor="#b9d2db"/>
+              <stop offset=".5" stopColor="#5d8ab5"/>
+              <stop offset="1" stopColor="#183864"/>
             </linearGradient>
-            <pattern id="wtrace-grid" width="35" height="35" patternUnits="userSpaceOnUse">
-              <path d="M35 0 H0 V35" stroke="#766b68" strokeWidth=".5" opacity=".09" />
-            </pattern>
+            <linearGradient id="lain-brown-hair" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#715053"/>
+              <stop offset="1" stopColor="#322630"/>
+            </linearGradient>
           </defs>
-          <rect x="0" y="0" width="900" height="850" fill="url(#wtrace-grid)" />
-          <path className="wtrace__underpaint" d="M69 233 L435 216 L501 600 L465 640 L87 657 Z" fill="#655e61" opacity=".11" />
-          <path className="wtrace__underpaint wtrace__underpaint--screen" d="M107 270 L400 257 L413 531 L113 556 Z" fill="url(#wtrace-screen)" opacity=".68" />
-          <path className="wtrace__underpaint wtrace__underpaint--hair" d="M521 347 C492 300 499 211 536 159 Q610 76 706 119 Q810 156 798 272 Q808 371 764 419 L743 397 Q755 334 740 273 Q730 217 681 186 Q601 156 550 227 Z" fill="#343036" opacity=".19" />
-          <path className="wtrace__underpaint wtrace__underpaint--shirt" d="M582 439 Q630 425 690 449 Q797 481 820 610 L840 703 L778 830 L614 831 L550 721 Q499 679 463 654 Q524 595 550 491 Z" fill="#5a5d58" opacity=".13" />
-          {contours.map(([d, tone = "ink"], index) => (
-            <path
-              key={index}
-              d={d}
-              pathLength={1}
-              className={"wtrace__stroke wtrace__stroke--" + tone}
-              style={{ animationDelay: `${index * 68}ms` }}
-            />
+          <g className="wtrace__color">
+            <path d="M63 221L395 205Q418 206 429 228L458 554Q460 577 444 584L105 607Q85 607 81 585L61 240Q60 225 63 221Z" fill="#c3baad"/>
+            <path d="M395 205 447 227 469 558 444 584Z" fill="#87857e"/>
+            <path d="M103 252Q103 243 116 243L386 231Q398 230 401 244L415 520Q418 535 405 539L134 558Q122 560 120 546Z" fill="#393b44"/>
+            <path d="M141 268 382 250Q391 250 391 261L403 507Q403 521 390 521L151 537Q143 538 142 529Z" fill="url(#lain-blue-screen)"/>
+            <path d="M168 606 404 588 397 622 179 635Z" fill="#b9b5a9"/>
+            <path d="M476 337 515 330 522 626 470 635Z" fill="#343d4b"/>
+            {/* Angled bob behind youthful face */}
+            <path d="M522 305Q502 258 525 205Q555 131 646 127Q736 122 763 185Q792 240 776 294Q788 368 773 443L751 525L729 489L720 411L567 423Q533 389 527 335Z" fill="url(#lain-brown-hair)"/>
+            <path d="M553 280Q545 320 558 374Q578 422 635 431Q686 435 715 390Q740 344 730 285Z" fill="#e5d2c6"/>
+            <path d="M555 338Q563 398 616 420Q578 416 558 382Z" fill="#c8b1a9" opacity=".5"/>
+            <path d="M594 420 593 463 644 498 696 457 692 408Z" fill="#d8bdb1"/>
+            {/* recognizable white collar / dark navy blazer / red ribbon */}
+            <path d="M591 458Q561 466 533 501Q502 528 478 582L461 652 583 733Q650 765 770 734L836 657Q812 547 789 514Q751 468 701 454L644 534Z" fill="#303647"/>
+            <path d="M597 459 644 533 618 548 593 507Z" fill="#ebe5db"/>
+            <path d="M695 454 647 532 674 548 708 498Z" fill="#eee9df"/>
+            <path d="M630 535 646 552 660 540 648 521Z" fill="#a23b52"/>
+            <path d="M637 550 633 598 646 649 658 609 654 550Z" fill="#9b364d"/>
+            {/* Lain hair in FRONT of eyes, distinctive choppy bangs and long clipped lock */}
+            <path d="M538 207Q561 144 628 133Q701 119 746 171Q769 203 772 244L728 276 711 242 698 264 683 249 667 280 653 259 641 279 631 259 615 286 601 268 586 299 571 268 559 302 539 259 528 293Z" fill="#493139"/>
+            <path d="M733 305Q756 341 752 397Q746 462 751 525L729 484Q739 406 733 305Z" fill="#49343a"/>
+            {/* characteristic teen anime eyes */}
+            <path d="M576 326Q604 302 636 326Q611 346 577 333Z M658 326Q687 304 713 329Q686 349 659 333Z" fill="#faf3eb"/>
+            <ellipse cx="605" cy="327" rx="13" ry="17" fill="#7e7075"/>
+            <ellipse cx="687" cy="327" rx="12" ry="17" fill="#7e7075"/>
+            <ellipse cx="604" cy="330" rx="6" ry="10" fill="#2c2a33"/>
+            <ellipse cx="687" cy="330" rx="6" ry="10" fill="#2c2a33"/>
+            <circle cx="600" cy="320" r="4" fill="#e4e8df"/>
+            <circle cx="683" cy="321" r="4" fill="#e4e8df"/>
+            {/* iconographic crossed silver hairclip */}
+            <path d="M722 272 750 305 755 299 728 267Z" fill="#cac8c5"/>
+            <path d="M751 268 722 302 727 306 754 273Z" fill="#dadad5"/>
+            {/* hands on the front keyboard */}
+            <path d="M465 651Q443 642 419 677Q410 691 430 687Q406 694 417 704L452 685Q423 708 437 716L468 700Q459 724 479 715L505 660Z" fill="#d9bfb6"/>
+            <path d="M576 698Q542 683 519 705Q508 718 540 711Q522 730 536 732L562 722Q544 739 566 738L584 718Z" fill="#d7beb5"/>
+            <path d="M179 647 476 628 582 711 273 746Z" fill="#aaa69a"/>
+            <path d="M273 746 582 711 584 723 273 760Z" fill="#62616a"/>
+          </g>
+          {outlines.map(([d, ink = "ink"], i) => (
+            <path key={i} d={d} pathLength={1} className={"wtrace__stroke wtrace__stroke--lain-" + ink} style={{animationDelay: (i * 68) + "ms"}} />
           ))}
           <g className="wtrace__completion" aria-hidden="true">
-            <circle cx="745" cy="79" r="3.5" fill="#aa394f" />
-            <path d="M717 79 H735 M755 79 H788" stroke="#aa394f" strokeWidth="1" />
-            <text x="791" y="83" fill="#91364a" fontSize="12" fontFamily="monospace" letterSpacing="2" textAnchor="end">001</text>
+            <path d="M805 107h28m-14-14v28" stroke="#a43a4b" strokeWidth="1.4"/>
+            <text x="824" y="145" fontSize="11" fontFamily="monospace" fill="#a43a4b" textAnchor="end">NAVI: CONNECTED</text>
           </g>
         </svg>
-        <div className="wtrace__focus" aria-hidden="true">+</div>
-        <div className="wtrace__caption" aria-hidden="true">TRACING THE BOUNDARY / REAL ↔ WIRED</div>
+        <div className="wtrace__serial" aria-hidden="true">岩倉玲音 / lain iwakura</div>
+        <div className="wtrace__caption" aria-hidden="true">PRESENT DAY. PRESENT TIME. // THE WIRED</div>
       </div>
-
       <div className="wtrace__bottom">
-        <div className="wtrace__bottomLabel">
-          <span className="wtrace__redDot" aria-hidden="true" />
-          <span>IDENTITY TRACE / AUTO DRAW</span>
-        </div>
-        <button
-          className="wtrace__replay"
-          type="button"
-          onClick={() => setRenderPass((pass) => pass + 1)}
-          aria-label="Replay the line-drawing animation"
-        >
-          ↺ REPLAY DRAWING
-        </button>
+        <div className="wtrace__bottomLabel"><span className="wtrace__redDot" aria-hidden="true"/> VECTOR TRACE / 001</div>
+        <button type="button" className="wtrace__replay" onClick={() => setPass((n) => n + 1)} aria-label="Replay the outline drawing">↺ REPLAY DRAWING</button>
       </div>
     </div>
   );
