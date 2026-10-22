@@ -138,7 +138,7 @@ export default function WiredOutline(){
       setReady(true);
       const render=(now:number)=>{
         if(disposed)return;
-        const elapsed=Math.min(1,(now-start)/6700);
+        const elapsed=Math.min(1,(now-start)/4800);
         const target=Math.ceil(strokes.length*elapsed);
         while(drawn<target){
           const stroke=strokes[drawn++];
