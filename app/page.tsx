@@ -648,20 +648,14 @@ export default function Home() {
             </div>
             <div className="wiredArtifactAura" aria-hidden="true" />
             <WiredOutline />
-            <div className="wiredArtifactData" aria-hidden="true">
-              <span className="wiredArtifactData__light" />
-              <span>SIGNAL / STABLE</span><span>● 01:26</span>
-            </div>
-            <div className="wiredArtifactEdge" aria-hidden="true">
-              <span>ETHERNET</span><span>/// 1998—2026</span>
-            </div>
+
           </div>
         </div>
 
-        <div className="wiredLandingFoot shell">
-          <span>PHYSICAL LAYER ↓</span>
-          <span>▽</span>
-          <span>THIS IS NOT AN ERROR</span>
+        <div className="wiredLandingFoot wiredLandingFoot--v3 shell">
+          <a href="#projects" aria-label="Browse selected projects">↓ VIEW SELECTED WORK</a>
+          <span aria-hidden="true">◇</span>
+          <a href="#contact" aria-label="Go to contact section">START A CONVERSATION ↗</a>
         </div>
       </section>
 
