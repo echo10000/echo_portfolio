@@ -594,9 +594,12 @@ export default function Home() {
       </div>
 
       {/* THE WIRED / ORIGINAL ANALOG LANDING */}
-      <section className="wiredLanding" id="top" aria-label="Jericho Blando developer portfolio">
+      <section className="wiredLanding wiredLanding--v3" id="top" aria-label="Jericho Blando developer portfolio">
         <div className="wiredLandscape" aria-hidden="true" />
         <div className="wiredBleed" aria-hidden="true" />
+        <div className="wiredDepthGrid" aria-hidden="true" />
+        <div className="wiredGhostType" aria-hidden="true">WIRED<span>03</span></div>
+        <span className="wiredPreviewStamp">VISUAL PREVIEW · NOT PRODUCTION</span>
         <div className="wiredTracking shell">
           <span>RECORD 001 / INDIVIDUAL EXISTENCE</span>
           <span className="wiredRecordStatus"><span className="wiredLiveDot" /> LINK ESTABLISHED — PH/26</span>
@@ -639,8 +642,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="wiredArtStage">
+          <div className="wiredArtStage wiredArtStage--v3">
+            <div className="wiredArtifactBackplate" aria-hidden="true">
+              <span>MEMORY SLOT / 001</span><span>THE WIRED</span>
+            </div>
+            <div className="wiredArtifactAura" aria-hidden="true" />
             <WiredOutline />
+            <div className="wiredArtifactData" aria-hidden="true">
+              <span className="wiredArtifactData__light" />
+              <span>SIGNAL / STABLE</span><span>● 01:26</span>
+            </div>
+            <div className="wiredArtifactEdge" aria-hidden="true">
+              <span>ETHERNET</span><span>/// 1998—2026</span>
+            </div>
           </div>
         </div>
 
@@ -787,7 +801,24 @@ export default function Home() {
 
         <div className="projectGrid">
           {filteredProjects.map((project, index) => (
-            <article className="projectCard" key={project.id}>
+            <article className={"projectCard wiredProjectCard wiredProjectCard--" + project.id} key={project.id}>
+              <div className={"wiredProjectVisual wiredProjectVisual--" + project.id} aria-hidden="true">
+                <div className="wiredProjectVisual__chrome">
+                  <span>ARCHIVE://{project.id.toUpperCase()}</span><span>● SYSTEM VIEW</span>
+                </div>
+                <div className="wiredProjectVisual__body">
+                  <div className="wiredProjectVisual__rail"><i /><i /><i /><i /></div>
+                  <div className="wiredProjectVisual__window">
+                    <div className="wiredProjectVisual__line wiredProjectVisual__line--short" />
+                    <div className="wiredProjectVisual__line" />
+                    <div className="wiredProjectVisual__nodes"><i /><i /><i /></div>
+                    <div className="wiredProjectVisual__line wiredProjectVisual__line--faint" />
+                    <div className="wiredProjectVisual__line wiredProjectVisual__line--short" />
+                  </div>
+                  <div className="wiredProjectVisual__side"><i /><i /><i /></div>
+                </div>
+                <span className="wiredProjectVisual__caption">ABSTRACT SYSTEM SCHEMATIC / NOT A SCREENSHOT</span>
+              </div>
               <div className="projectHeader">
                 <span className="projectCategory">{project.categoryLabel}</span>
                 <span className="projectNumber">0{index + 1}</span>
