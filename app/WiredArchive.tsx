@@ -17,6 +17,7 @@ type Props = {
   projects: ArchiveProject[];
   activeIndex: number;
   onSelect: (index: number) => void;
+  onViewRecord: () => void;
 };
 
 const FILES = [
@@ -28,7 +29,7 @@ const FILES = [
 // FILES intentionally follows the existing site's projects order.
 const FILE_ORDER = ["cba-inventory", "faculty-sched", "attendance-monitoring"] as const;
 
-export default function WiredArchive({ projects, activeIndex, onSelect }: Props) {
+export default function WiredArchive({ projects, activeIndex, onSelect, onViewRecord }: Props) {
   const [showInternals, setShowInternals] = useState(false);
   const project = projects.find((item) => item.id === FILE_ORDER[activeIndex]) || projects[0];
   const file = FILES[activeIndex] ?? FILES[0];
@@ -95,7 +96,7 @@ export default function WiredArchive({ projects, activeIndex, onSelect }: Props)
               <div className="naviArchive__system" aria-label="Simplified architecture diagram">
                 <div className="naviArchive__systemTop">
                   <span>INSPECTOR / DATA FLOW</span>
-                  <span>LIVE PREVIEW*</span>
+                  <span>SYSTEM SCHEMATIC</span>
                 </div>
                 <div className="naviArchive__diagram">
                   {file.diagram.map((node, i) => (
@@ -129,7 +130,7 @@ export default function WiredArchive({ projects, activeIndex, onSelect }: Props)
                 </div>
               )}
               <div className="naviArchive__recordActions">
-                <a href={"#project-" + project.id} className="naviArchive__primary">
+                <a href={"#project-" + project.id} onClick={onViewRecord} className="naviArchive__primary">
                   VIEW COMPLETE RECORD <span aria-hidden="true">↗</span>
                 </a>
                 {project.href ? (
