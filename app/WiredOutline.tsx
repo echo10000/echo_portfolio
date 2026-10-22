@@ -1,22 +1,18 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
 
-// Artwork reproduced from an externally hosted poster preview; it is NOT generated
-// by this portfolio. Credit the original artist and preserve the original source.
-// This URL may disappear if the seller removes the listing; never mislabel it as licensed.
+// Publicly viewable reference image; credit does not imply a reuse license.
+// The attribution links identify the artist and the referenced reproduction.
 const ART_URL = "https://i.ebayimg.com/images/g/Ey0AAOSwCndh6qnQ/s-l500.jpg";
 const ARTIST_URL = "https://x.com/abfly";
-const ART_SOURCE_URL = "https://www.ebay.com/itm/393889608986";
+const ART_SOURCE_URL = "https://i.ebayimg.com/images/g/Ey0AAOSwCndh6qnQ/s-l500.jpg";
 
 type InkStroke = readonly [path: string, width: number, begin: number];
 
-/*
-  A local, contour-aware stroke order in artwork coordinates (500 x 392).
-  Hair and face draw first, followed by the uniform, computer and desk.
-  Each path reveals the ORIGINAL artwork along a hand-shaped stroke.
-  This is deliberately not a left-to-right CSS clip.
-*/
+/* Paths are ordered by subject: hair, face, body, NAVI, wires.
+   Each vector contour is inked independently. Artwork fades in only afterward.
+   No wipe, sweeping cursor, clip-path progression or image-mask reveal. */
 const inkStrokes: InkStroke[] = [
   // Bob silhouette / crown
   ["M93 111 C88 80 102 50 129 27 C154 7 202 4 224 28", 36, .15],
@@ -87,68 +83,69 @@ const inkStrokes: InkStroke[] = [
   ["M9 379 Q58 361 105 379", 36, 8.25]
 ];
 
+
 export default function WiredOutline() {
   const [run, setRun] = useState(0);
   const [imageFailed, setImageFailed] = useState(false);
-  const reactId = useId().replace(/:/g, "");
-  const maskId = "lainInkMask-" + reactId;
 
   return (
-    <figure className="abeArtwork" aria-label="Yoshitoshi ABe illustration of Lain at her computer with a progressive ink tracing animation">
-      <header className="abeArtwork__header">
-        <span>WIRED ARCHIVE / LAYER 01</span>
-        <span>● INK TRANSMISSION</span>
-      </header>
+    <figure className="abeArtwork" aria-label="Lain by Yoshitoshi ABe, revealed through a line-by-line pencil animation">
+      <div className="abeArtwork__header">
+        <span>WIRED ARCHIVE / THE INK FILE</span>
+        <span className="abeArtwork__signal" aria-hidden="true">● TRANSMITTING</span>
+      </div>
+
       <div className="abeArtwork__canvas">
         {imageFailed ? (
-          <div className="abeArtwork__fallback">
-            <p>Original artwork preview unavailable.</p>
-            <a href={ART_SOURCE_URL} target="_blank" rel="noopener noreferrer">View the artwork source ↗</a>
+          <div className="abeArtwork__fallback" role="status">
+            <p>The artwork preview is unavailable.</p>
+            <a href={ART_SOURCE_URL} target="_blank" rel="noopener noreferrer">Open the illustration source ↗</a>
           </div>
         ) : (
           <>
-            <svg
-              className="abeArtwork__tracing"
-              viewBox="0 0 500 392"
-              preserveAspectRatio="xMidYMid meet"
-              key={"ink-" + run}
-              role="img"
-              aria-label="Lain's hair, face, clothes, the computer and its wires appear stroke by stroke."
-            >
-              <defs>
-                <mask id={maskId} x="0" y="0" width="500" height="392" maskUnits="userSpaceOnUse">
-                  <rect width="500" height="392" fill="black" />
-                  {inkStrokes.map(([d, width, delay], i) => (
-                    <path
-                      key={i}
-                      d={d}
-                      fill="none"
-                      stroke="white"
-                      strokeWidth={width}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      pathLength={1}
-                      strokeDasharray={1}
-                      strokeDashoffset={1}
-                      className="abeArtwork__maskStroke"
-                      style={{ animationDelay: delay + "s" }}
-                    />
-                  ))}
-                </mask>
-              </defs>
-              <image
-                x="0" y="0" width="500" height="392"
-                preserveAspectRatio="xMidYMid meet"
-                href={ART_URL}
-                mask={"url(#" + maskId + ")"}
-                className="abeArtwork__inkImage"
-              />
-            </svg>
+            {/* Low-opacity reference helps the strokes resemble a pencil study, not a blank loading screen. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={ART_URL}
-              alt="Original Yoshitoshi ABe illustration of Lain sitting beside her 1990s computer in a blue room."
+              alt=""
+              className="abeArtwork__blueprint"
+              aria-hidden="true"
+              loading="eager"
+            />
+
+            {/* These are visible animated vector strokes: NO SVG image mask or horizontal clipping. */}
+            <svg
+              key={"ink-" + run}
+              className="abeArtwork__drawing"
+              viewBox="0 0 500 392"
+              preserveAspectRatio="xMidYMid meet"
+              aria-hidden="true"
+            >
+              <g className="abeArtwork__inkLines">
+                {inkStrokes.map(([d, width, delay], i) => (
+                  <path
+                    key={i}
+                    d={d}
+                    pathLength={1}
+                    strokeWidth={Math.max(1.3, Math.min(2.8, width / 17))}
+                    className={
+                      "abeArtwork__penStroke" +
+                      (i >= 8 && i <= 19 ? " abeArtwork__penStroke--face" : "") +
+                      (i >= 35 && i <= 46 ? " abeArtwork__penStroke--hardware" : "")
+                    }
+                    style={{ animationDelay: delay + "s" }}
+                  />
+                ))}
+              </g>
+            </svg>
+
+            {/* The completed artwork develops in place once the contours are drawn. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={"finished-" + run}
+              src={ART_URL}
+              alt="Illustration attributed to Yoshitoshi ABe: Lain seated beside a blue-lit computer and cables."
               className="abeArtwork__finished"
-              key={"color-" + run}
               width={500}
               height={392}
               loading="eager"
@@ -156,14 +153,16 @@ export default function WiredOutline() {
             />
           </>
         )}
-        <span className="abeArtwork__issue" aria-hidden="true">SERIAL EXPERIMENTS / 001</span>
+        <div className="abeArtwork__paperGrain" aria-hidden="true" />
+        <span className="abeArtwork__issue" aria-hidden="true">LAYERS: INK → DEVELOPMENT → COLOR</span>
       </div>
+
       <figcaption className="abeArtwork__footer">
         <div className="abeArtwork__credit">
-          <span>ARTWORK BY <a href={ARTIST_URL} target="_blank" rel="noopener noreferrer">YOSHITOSHI ABe ↗</a></span>
-          <a href={ART_SOURCE_URL} target="_blank" rel="noopener noreferrer">ARTWORK REFERENCE ↗</a>
+          <span>ILLUSTRATION ATTRIBUTED TO <a href={ARTIST_URL} target="_blank" rel="noopener noreferrer">YOSHITOSHI ABe ↗</a></span>
+          <a href={ART_SOURCE_URL} target="_blank" rel="noopener noreferrer">VIEW ARTWORK ↗</a>
         </div>
-        <button type="button" onClick={() => setRun(n => n + 1)} aria-label="Draw the artwork again">
+        <button type="button" onClick={() => setRun(n => n + 1)} aria-label="Replay the drawing animation">
           ↺ DRAW AGAIN
         </button>
       </figcaption>
