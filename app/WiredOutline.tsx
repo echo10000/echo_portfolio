@@ -188,11 +188,11 @@ export default function WiredOutline({ onOpenArchive }: { onOpenArchive?: () => 
             className="inkStudy__naviHotspot"
             type="button"
             onClick={onOpenArchive}
-            aria-label="Open interactive project files through the NAVI monitor"
-            title="Explore my projects"
+            aria-label="Access my projects through the NAVI monitor"
+            title="Access projects"
           >
             <span className="inkStudy__naviPoint" aria-hidden="true">✦</span>
-            <span className="inkStudy__naviHint" aria-hidden="true">OPEN ARCHIVE ↗</span>
+            <span className="inkStudy__naviHint" aria-hidden="true">ACCESS PROJECTS ↗</span>
           </button>
         )}
         <span className="inkStudy__tag" aria-hidden="true">ORIGINAL ART / LIVE TRACING</span>
@@ -205,7 +205,7 @@ export default function WiredOutline({ onOpenArchive }: { onOpenArchive?: () => 
         <div className="inkStudy__actions">
           {onOpenArchive && (
             <button className="inkStudy__openButton" type="button" onClick={onOpenArchive}>
-              OPEN FILES ↗
+              ACCESS PROJECTS ↗
             </button>
           )}
           <button type="button" onClick={()=>setRun(n=>n+1)} aria-label="Replay the original artwork sketch animation">↺ REPLAY SKETCH</button>
