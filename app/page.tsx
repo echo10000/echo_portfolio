@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import WiredOutline from "./WiredOutline";
+import WiredArchive from "./WiredArchive";
 
 /* ──────────────────────────────────────────────
    DATA DEFINITIONS
@@ -369,7 +370,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<string>("top");
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [activeTerminalTab, setActiveTerminalTab] = useState<string>("stack");
+  const [activeArchiveFile, setActiveArchiveFile] = useState(0);
   const [projectFilter, setProjectFilter] = useState<ProjectCategory>("all");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState<boolean>(false);
@@ -485,6 +486,14 @@ export default function Home() {
     );
     window.location.href = `mailto:blando.jericho26@gmail.com?subject=${subject}&body=${body}`;
     showToast("Launching email client...");
+  };
+
+  const openArchive = (index = 0) => {
+    setActiveArchiveFile(index);
+    document.getElementById("wired-archive")?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
   };
 
   const filteredProjects =
@@ -627,7 +636,7 @@ export default function Home() {
               </p>
             </div>
             <div className="wiredMainActions">
-              <a className="wiredAction wiredActionPrimary" href="#projects">
+              <a className="wiredAction wiredActionPrimary" href="#wired-archive" onClick={() => setActiveArchiveFile(0)}>
                 [ 01 ] ENTER THE ARCHIVE <ArrowIcon />
               </a>
               <a className="wiredAction wiredActionSecondary" href="#contact">[ 02 ] TRANSMIT A MESSAGE</a>
@@ -647,83 +656,20 @@ export default function Home() {
               <span>MEMORY SLOT / 001</span><span>THE WIRED</span>
             </div>
             <div className="wiredArtifactAura" aria-hidden="true" />
-            <WiredOutline />
+            <WiredOutline onOpenArchive={() => openArchive(0)} />
 
           </div>
         </div>
 
         <div className="wiredLandingFoot wiredLandingFoot--v3 shell">
-          <a href="#projects" aria-label="Browse selected projects">↓ VIEW SELECTED WORK</a>
+          <a href="#wired-archive" aria-label="Explore interactive project archive">↓ EXPLORE WORK ARCHIVE</a>
           <span aria-hidden="true">◇</span>
           <a href="#contact" aria-label="Go to contact section">START A CONVERSATION ↗</a>
         </div>
       </section>
 
-      <section className="wiredBridge" aria-label="System information archive">
-        <div className="wiredBridgeInner shell">
-          <div className="wiredBridgeHeading">
-            <span className="wiredBridgeSignal">● INCOMING TRANSMISSION</span>
-            <h2>MEMORY /<br /><span>ACCESS LOG</span></h2>
-            <p>Tracing the systems I build.<br />Select a frequency to view the record.</p>
-            <div className="wiredBridgeCoordinates">35° 42' N | THE WIRED | 001</div>
-          </div>
-          <div className="wiredBridgeConsole">
-            <div className="wiredBridgeBar">
-              <span>▤ TERMINAL : ECHO://HOST</span><span>ONLINE <span className="wiredLiveDot" /></span>
-            </div>
-            <div className="wiredBridgeTabs">
-              {[
-                { id: "stack", label: "01 / STACK" },
-                { id: "capstone", label: "02 / BUILD" },
-                { id: "architecture", label: "03 / LOGIC" },
-                { id: "status", label: "04 / STATUS" },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  className={"wiredBridgeTab " + (activeTerminalTab === tab.id ? "isActive" : "")}
-                  onClick={() => setActiveTerminalTab(tab.id)}
-                  aria-pressed={activeTerminalTab === tab.id}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-            <div className="wiredBridgeOutput" aria-live="polite">
-              <p className="wiredPrompt"><span>root@echo:~#</span> {activeTerminalTab === "stack" ? "cat /etc/skills" : activeTerminalTab === "capstone" ? "inspect capstone" : activeTerminalTab === "architecture" ? "cat /etc/principles" : "ping identity"}</p>
-              {activeTerminalTab === "stack" && <div className="wiredOutputLines">
-                <p><span>BACKEND</span> Python / Django / REST</p>
-                <p><span>DATABASE</span> PostgreSQL / MySQL</p>
-                <p><span>OPTIMIZATION</span> Google OR-Tools</p>
-                <p><span>TOOLS</span> Linux / GitHub / Deployment</p>
-              </div>}
-              {activeTerminalTab === "capstone" && <div className="wiredOutputLines">
-                <p><span>PROJECT</span> Faculty Workload &amp; Scheduling</p>
-                <p><span>ENGINE</span> Constraint solving &amp; clash prevention</p>
-                <p><span>BACKEND</span> Django &amp; relational data</p>
-                <p><span>STATE</span> In development</p>
-              </div>}
-              {activeTerminalTab === "architecture" && <div className="wiredOutputLines">
-                <p><span>PRINCIPLE_01</span> Correctness before shortcuts</p>
-                <p><span>PRINCIPLE_02</span> Resilient service layers</p>
-                <p><span>PRINCIPLE_03</span> Interfaces people can actually use</p>
-                <p><span>PROCESS</span> Build / Test / Iterate</p>
-              </div>}
-              {activeTerminalTab === "status" && <div className="wiredOutputLines">
-                <p><span>IDENTITY</span> Jericho Blando</p>
-                <p><span>LOCATION</span> Negros Oriental / Philippines</p>
-                <p><span>AVAILABILITY</span> <b>● Open to opportunities</b></p>
-                <p><span>FOCUS</span> Backend / Full-stack / AI tooling</p>
-              </div>}
-              <p className="wiredPrompt wiredPromptBottom"><span>root@echo:~#</span><span className="wiredCommandCaret">█</span></p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="wiredInterlude" aria-hidden="true">
-        <span>there is no distance between signals.</span>
-        <strong>接続 / CONNECTION</strong>
-      </div>
+      {/* NAVI PROJECT ARCHIVE / PREVIEW EXPERIMENT */}
+      <WiredArchive projects={projects} activeIndex={activeArchiveFile} onSelect={setActiveArchiveFile} />
 
       {/* ── 01 / ABOUT SECTION ── */}
       <section className="section shell" id="about">
@@ -795,7 +741,7 @@ export default function Home() {
 
         <div className="projectGrid">
           {filteredProjects.map((project, index) => (
-            <article className={"projectCard wiredProjectCard wiredProjectCard--" + project.id} key={project.id}>
+            <article id={"project-" + project.id} className={"projectCard wiredProjectCard wiredProjectCard--" + project.id} key={project.id}>
               <div className={"wiredProjectVisual wiredProjectVisual--" + project.id} aria-hidden="true">
                 <div className="wiredProjectVisual__chrome">
                   <span>ARCHIVE://{project.id.toUpperCase()}</span><span>● SYSTEM VIEW</span>
