@@ -50,11 +50,6 @@
  <path d="M-140 105Q900 190 1710 97"/>
  <path d="M-90 550Q780 606 1700 480"/>
 </g>
-<!-- Small human presence; generic anonymous shape -->
-<g transform="translate(799 742)" fill="#312b2d" opacity=".87">
- <ellipse cx="0" cy="0" rx="9" ry="11"/><path d="M-11 14Q0 5 11 14L16 60H-14z"/><path d="M-9 52 -15 91 -6 92 2 62 9 94 18 93 13 52z"/>
-</g>
-<path d="M790 837 770 980h71l-31-143" fill="#5a2933" opacity=".19"/>
 <path fill="#11181b" opacity=".075" filter="url(#grain)" d="M0 0h1600v980H0z"/>
 <!-- Crosshair as old analog broadcast artifacts -->
 <g stroke="#8d3c4a" stroke-width="1" opacity=".65"><path d="M75 80h38M94 60v40M1525 900h-38M1506 880v40"/></g>
