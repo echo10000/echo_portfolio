@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "./lain-theme.css";
 import "./lain-v2.css";
+import "./wired-trace.css";
 
 const inter = Inter({
   subsets: ["latin"],
