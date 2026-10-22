@@ -5,6 +5,7 @@ import "./lain-theme.css";
 import "./lain-v2.css";
 import "./wired-trace.css";
 import "./lain-anime.css";
+import "./anatomy-wired.css";
 
 const inter = Inter({
   subsets: ["latin"],
