@@ -13,7 +13,7 @@
   position:absolute;inset:0;display:block;width:100%;height:100%}
 .inkStudy__lines{z-index:1}
 .inkStudy__final{z-index:2;object-fit:contain;opacity:0}
-.inkStudy__final--ready{animation:inkStudyDevelop 3.1s ease-in-out 4.65s both}
+.inkStudy__final--ready{animation:inkStudyDevelop 2.9s ease-in-out 2.55s both}
 .inkStudy__fallback{z-index:2}.inkStudy__fallback img{object-fit:contain}
 .inkStudy__frame::after{content:"";position:absolute;z-index:3;inset:0;pointer-events:none;
   background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(59,49,54,.1) 4px);
