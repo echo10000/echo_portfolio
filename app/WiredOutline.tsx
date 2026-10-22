@@ -161,7 +161,7 @@ export default function WiredOutline() {
       <figcaption className="abeArtwork__footer">
         <div className="abeArtwork__credit">
           <span>ARTWORK BY <a href={ARTIST_URL} target="_blank" rel="noopener noreferrer">YOSHITOSHI ABe ↗</a></span>
-          <a href={ART_SOURCE_URL} target="_blank" rel="noopener noreferrer">ORIGINAL IMAGE / SOURCE ↗</a>
+          <a href={ART_SOURCE_URL} target="_blank" rel="noopener noreferrer">ARTWORK REFERENCE ↗</a>
         </div>
         <button type="button" onClick={() => setRun(n => n + 1)} aria-label="Draw the artwork again">
           ↺ DRAW AGAIN
