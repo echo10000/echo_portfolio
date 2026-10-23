@@ -25,6 +25,19 @@ interface Project {
 
 const projects: Project[] = [
   {
+    id: "cba-inventory",
+    title: "CBA Asset & Inventory Management System",
+    category: "fullstack",
+    categoryLabel: "Full-Stack Web System",
+    description:
+      "A Django-based operational system for college assets, borrowing, accountability, maintenance, QR verification and institutional reporting.",
+    architecture:
+      "Role-based authorization, transactional asset assignments, audit trails and a documented PostgreSQL / Gunicorn / Nginx deployment architecture.",
+    stack: ["Python", "Django", "PostgreSQL", "Nginx", "Gunicorn", "QR Engine"],
+    href: "https://github.com/echo10000/cba_ims",
+    cta: "View source repository",
+  },
+  {
     id: "faculty-sched",
     title: "AI-Powered Faculty Workload & Scheduling System",
     category: "backend",
@@ -36,19 +49,6 @@ const projects: Project[] = [
     stack: ["Python", "Django", "Google OR-Tools", "PostgreSQL", "Bootstrap", "REST APIs"],
     href: "https://github.com/echo10000/faculty_sched",
     cta: "View repository",
-  },
-  {
-    id: "cba-inventory",
-    title: "CBA Asset & Inventory Management System",
-    category: "fullstack",
-    categoryLabel: "Full-Stack Web System",
-    description:
-      "An institutional equipment tracker managing department inventories, transfer histories, maintenance cycles, and QR-based mobile scanning for campus assets.",
-    architecture:
-      "Role-based permission architecture, relational audit trails, QR-code decoding pipeline, deployed on Linux with Gunicorn and WhiteNoise.",
-    stack: ["Python", "Django", "PostgreSQL", "Nginx", "Gunicorn", "QR Engine"],
-    href: null,
-    cta: "Institutional project",
   },
   {
     id: "attendance-monitoring",
@@ -661,6 +661,7 @@ export default function Home() {
               </div>
 
               <div className="projectBody">
+                {project.id === "cba-inventory" && <span className="cbaFeaturedFlag">FEATURED CASE STUDY / 001</span>}
                 <h3>{project.title}</h3>
                 <p className="projectDescription">{project.description}</p>
 
@@ -678,13 +679,17 @@ export default function Home() {
                 </div>
 
                 <div className="projectFooter">
-                  {project.href ? (
-                    <a
-                      className="projectLink"
-                      href={project.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                  {project.id === "cba-inventory" ? (
+                    <div className="cbaFeaturedActions">
+                      <a className="projectLink cbaFeaturedPrimary" href="/projects/cba-ims">
+                        READ FULL CASE STUDY <ArrowIcon />
+                      </a>
+                      <a className="projectLink cbaFeaturedSecondary" href={project.href || "https://github.com/echo10000/cba_ims"} target="_blank" rel="noopener noreferrer">
+                        SOURCE ↗
+                      </a>
+                    </div>
+                  ) : project.href ? (
+                    <a className="projectLink" href={project.href} target="_blank" rel="noreferrer">
                       {project.cta} <ArrowIcon />
                     </a>
                   ) : (
