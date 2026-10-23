@@ -11,6 +11,7 @@ import "./ink-study.css";
 import "./wired-03-preview.css";
 import "./navi-archive.css";
 import "./identity-dossier.css";
+import "./cba-featured.css";
 
 const inter = Inter({
   subsets: ["latin"],
