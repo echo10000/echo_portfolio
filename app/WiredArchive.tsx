@@ -130,8 +130,8 @@ export default function WiredArchive({ projects, activeIndex, onSelect, onViewRe
                 </div>
               )}
               <div className="naviArchive__recordActions">
-                <a href={"#project-" + project.id} onClick={onViewRecord} className="naviArchive__primary">
-                  VIEW COMPLETE RECORD <span aria-hidden="true">↗</span>
+                <a href={project.id === "cba-inventory" ? "/projects/cba-ims" : "#project-" + project.id} onClick={project.id === "cba-inventory" ? undefined : onViewRecord} className="naviArchive__primary">
+                  {project.id === "cba-inventory" ? "READ CBA CASE STUDY" : "VIEW COMPLETE RECORD"} <span aria-hidden="true">↗</span>
                 </a>
                 {project.href ? (
                   <a href={project.href} target="_blank" rel="noopener noreferrer" className="naviArchive__external">
