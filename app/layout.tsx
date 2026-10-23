@@ -10,6 +10,7 @@ import "./abe-artwork.css";
 import "./ink-study.css";
 import "./wired-03-preview.css";
 import "./navi-archive.css";
+import "./identity-dossier.css";
 
 const inter = Inter({
   subsets: ["latin"],
