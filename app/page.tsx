@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import WiredOutline from "./WiredOutline";
+import IdentityDossier from "./IdentityDossier";
 import WiredArchive from "./WiredArchive";
 
 /* ──────────────────────────────────────────────
@@ -217,149 +218,6 @@ function PhoneIcon() {
 /* ──────────────────────────────────────────────
    INTERACTIVE PROFILE PORTRAIT
    ────────────────────────────────────────────── */
-
-function InteractivePortrait() {
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0, isHovered: false });
-  const cardRef = useRef<HTMLButtonElement>(null);
-  const [isTouchOrReduced, setIsTouchOrReduced] = useState(false);
-
-  useEffect(() => {
-    const checkCapabilities = () => {
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const coarse = window.matchMedia("(pointer: coarse)").matches;
-      setIsTouchOrReduced(reduced || coarse);
-    };
-    checkCapabilities();
-
-    const mqlReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mqlCoarse = window.matchMedia("(pointer: coarse)");
-    mqlReduced.addEventListener("change", checkCapabilities);
-    mqlCoarse.addEventListener("change", checkCapabilities);
-    return () => {
-      mqlReduced.removeEventListener("change", checkCapabilities);
-      mqlCoarse.removeEventListener("change", checkCapabilities);
-    };
-  }, []);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (isTouchOrReduced || isFlipped) return;
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Max rotation 2.5 degrees (strictly within 2-3 degrees requirement)
-    const rotX = ((y - centerY) / centerY) * -2.5;
-    const rotY = ((x - centerX) / centerX) * 2.5;
-    setTilt({ x: rotX, y: rotY, isHovered: true });
-  };
-
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0, isHovered: false });
-  };
-
-  const handleToggle = () => {
-    setIsFlipped((prev) => !prev);
-    setTilt({ x: 0, y: 0, isHovered: false });
-  };
-
-  const tiltTransform =
-    !isTouchOrReduced && tilt.isHovered && !isFlipped
-      ? `translateY(-3.5px) rotateX(${tilt.x.toFixed(2)}deg) rotateY(${tilt.y.toFixed(2)}deg)`
-      : !isTouchOrReduced && tilt.isHovered && isFlipped
-      ? "translateY(-3.5px)"
-      : "translateY(0px) rotateX(0deg) rotateY(0deg)";
-
-  return (
-    <div className="portraitContainer">
-      <button
-        ref={cardRef}
-        type="button"
-        className={`portraitButton ${isFlipped ? "flipped" : ""}`}
-        onClick={handleToggle}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        aria-label={
-          isFlipped
-            ? "Developer identity card for Jericho Blando. Click or press Enter to return to portrait."
-            : "Portrait of Jericho Blando. Click or press Enter to inspect developer identity card."
-        }
-        aria-pressed={isFlipped}
-      >
-        <div
-          className="portraitTiltWrapper"
-          style={{ transform: tiltTransform }}
-        >
-          <div className="portraitFlipper">
-            {/* FRONT: Portrait Photograph */}
-            <div className="portraitFace portraitFront">
-              <div className="cornerMarker cornerTL" aria-hidden="true" />
-              <div className="cornerMarker cornerTR" aria-hidden="true" />
-              <div className="cornerMarker cornerBL" aria-hidden="true" />
-              <div className="cornerMarker cornerBR" aria-hidden="true" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/jericho-profile.png"
-                alt="Jericho Blando"
-                loading="eager"
-              />
-              <div className="inspectBadge" aria-hidden="true">
-                [ inspect ]
-              </div>
-            </div>
-
-            {/* BACK: Terminal Developer Identity Card */}
-            <div className="portraitFace portraitBack" aria-hidden={!isFlipped}>
-              <div className="devCardHeader">
-                <div className="devCardDots">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <span className="devCardTag">DEV</span>
-              </div>
-
-              <div className="devCardBody">
-                <p className="devCmd">
-                  <span className="devPrompt">$</span> whoami
-                </p>
-                <div className="devOutput">
-                  <span className="devName">&gt; Jericho Blando</span>
-                  <span>&gt; BS Information Technology</span>
-                  <span>&gt; Backend / Django</span>
-                  <span>&gt; Python + PostgreSQL</span>
-                </div>
-
-                <p className="devCmd" style={{ marginTop: "14px" }}>
-                  <span className="devPrompt">$</span> status
-                </p>
-                <div className="devOutput">
-                  <span className="devStatus">&gt; open_to_opportunities</span>
-                </div>
-
-                <div className="devCursor">█</div>
-              </div>
-
-              <div className="devCardFooter">
-                <span>[ click to flip back ]</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </button>
-
-      <div className="portraitMeta">
-        <span>Jericho Blando</span>
-        <span className="inspectHint">
-          {isFlipped ? "[ show portrait ]" : "[ inspect ]"}
-        </span>
-      </div>
-    </div>
-  );
-}
 
 /* ──────────────────────────────────────────────
    MAIN COMPONENT
@@ -677,43 +535,75 @@ export default function Home() {
         onViewRecord={() => setProjectFilter("all")}
       />
 
-      {/* ── 01 / ABOUT SECTION ── */}
-      <section className="section shell" id="about">
-        <div className="sectionLabel">01 / ABOUT</div>
+      {/* ── 01 / ABOUT : WIRED IDENTITY DOSSIER (PREVIEW ONLY) ── */}
+      <section className="section shell identitySection" id="about" aria-labelledby="identityTitle">
+        <div className="identitySection__header">
+          <div className="sectionLabel">01 / ABOUT ME</div>
+          <span className="identitySection__headerAside">PHYSICAL SELF / DIGITAL WORK <span aria-hidden="true">✳</span></span>
+        </div>
 
-        <div className="aboutLayout">
-          {/* Interactive Portrait with Flip & Tilt */}
-          <InteractivePortrait />
+        <div className="identityLayout">
+          <IdentityDossier />
 
-          {/* Copy and Editorial Metadata Strip */}
-          <div className="aboutText">
-            <h2>Building software that solves tangible operational problems.</h2>
+          <div className="identityEditorial">
+            <div className="identityEditorial__eyebrow">
+              <span aria-hidden="true" className="identityEditorial__dash" />
+              INTRODUCING / THE HUMAN BEHIND THE CODE
+            </div>
 
-            <div className="aboutCopy">
+            <h2 id="identityTitle">
+              <span>MORE THAN</span>
+              <span className="identityEditorial__serif">just a</span>
+              <span>DEVELOPER.</span>
+            </h2>
+
+            <p className="identityEditorial__lead">
+              I&apos;m Jericho. I make software that helps people get real work done.
+            </p>
+
+            <div className="identityEditorial__story">
               <p>
-                My projects are centered on real academic and departmental workflows: <strong>automated scheduling</strong>, <strong>workload balancing</strong>, <strong>asset accountability</strong>, and <strong>QR-based attendance verification</strong>. I prioritize solid database modeling and backend correctness just as much as an intuitive user interface.
+                My work starts with practical problems: keeping track of college assets,
+                organizing academic schedules, and making everyday operations less
+                repetitive. I care about the people using the software as much as
+                the logic behind it.
               </p>
               <p>
-                I am actively strengthening my mastery of Python, Django, PostgreSQL, relational schema design, API engineering, Git workflows, and deployment fundamentals so I can step directly into a junior developer role with practical production experience.
+                I&apos;m studying Information Technology at NORSU and growing my skills in
+                <strong> Python, Django, databases, and full-stack development.</strong>
+                I like turning complicated workflows into systems that feel simple.
               </p>
             </div>
 
-            {/* Editorial Metadata Strip (Replaces card boxes) */}
-            <div className="metadataStrip">
-              <div className="metadataItem">
-                <span className="metadataValue">BSIT</span>
-                <span className="metadataLabel">Information Technology</span>
+            <div className="identityEditorial__principles">
+              <div>
+                <span className="identityEditorial__principleNumber">01 / APPROACH</span>
+                <strong>Problem first.</strong>
+                <small>Understand the workflow before building the interface.</small>
               </div>
-              <div className="metadataItem">
-                <span className="metadataValue">NORSU</span>
-                <span className="metadataLabel">Bayawan Campus</span>
+              <div>
+                <span className="identityEditorial__principleNumber">02 / PRACTICE</span>
+                <strong>Build. Test. Improve.</strong>
+                <small>Real projects are where I learn the most.</small>
               </div>
-              <div className="metadataItem">
-                <span className="metadataValue">2027</span>
-                <span className="metadataLabel">Target Graduation</span>
-              </div>
+            </div>
+
+            <div className="identityEditorial__actions">
+              <a href="#wired-archive" className="identityEditorial__primary">
+                EXPLORE MY WORK <span aria-hidden="true">↗</span>
+              </a>
+              <a href="#contact" className="identityEditorial__secondary">
+                SAY HELLO <span aria-hidden="true">↗</span>
+              </a>
             </div>
           </div>
+        </div>
+
+        <div className="identitySection__foot">
+          <div><span>EDUCATION</span><strong>BS INFORMATION TECHNOLOGY</strong></div>
+          <div><span>CAMPUS</span><strong>NORSU · BAYAWAN</strong></div>
+          <div><span>GRADUATION</span><strong>2027 · TARGET</strong></div>
+          <span className="identitySection__footIndex">J/B — 001</span>
         </div>
       </section>
 
